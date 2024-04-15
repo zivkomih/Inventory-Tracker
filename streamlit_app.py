@@ -8,6 +8,9 @@ import requests
 api_key = 'NXHHVY2K0P079FB2'
 symbol = st.text_input("Gib den Aktiennamen ein (z.B. AAPL für Apple):")
 
+# Auswahl der Aktie
+stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
+
 if symbol:
     # API URL für den aktuellen Kurs
     url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
@@ -38,9 +41,6 @@ else:
 st.write(f"Empfehlung: {recommendation}")
 
 st.title('Trading App')
-
-# Auswahl der Aktie
-stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
 
 # Laden der Aktiendaten
 if stock_symbol:
