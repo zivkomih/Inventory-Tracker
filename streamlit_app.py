@@ -6,7 +6,6 @@ import requests
 
 # API-Key Finanzdaten
 api_key = 'NXHHVY2K0P079FB2'
-symbol = st.text_input("Gib den Aktiennamen ein (z.B. AAPL für Apple):")
 
 # Auswahl der Aktie
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
@@ -18,7 +17,7 @@ if symbol:
     data = response.json()
 
     current_price = data['Global Quote']['05. price']
-    st.write(f"Aktueller Kurs von {symbol}: ${current_price}")
+    st.write(f"Aktueller Kurs von {stock_symbol}: ${current_price}")
 
     # Beispiel-Datenframe
 df = pd.DataFrame({
