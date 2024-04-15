@@ -7,6 +7,8 @@ import requests
 # API-Key Finanzdaten
 api_key = 'NXHHVY2K0P079FB2'
 
+st.title('Unfortunate Broke Stockbrockers (UBS)')
+
 # Auswahl der Aktie
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
 
@@ -39,7 +41,6 @@ else:
 
 st.write(f"Empfehlung: {recommendation}")
 
-st.title('Trading App')
 
 # Laden der Aktiendaten
 if stock_symbol:
