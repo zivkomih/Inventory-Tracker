@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import requests
 
-st.title('Unfortunate Broke Stockbrokers (UBS)')
+st.title('Primarily Invented for Creative Tax Evasion Tactics (PICTET)')
 
 # Auswahl der Aktie
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
