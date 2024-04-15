@@ -2,6 +2,40 @@ import streamlit as st
 import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
+import requests
+
+# API-Key Finanzdaten
+api_key = 'NXHHVY2K0P079FB2'
+symbol = st.text_input("Gib den Aktiennamen ein (z.B. AAPL für Apple):")
+
+if symbol:
+    # API URL für den aktuellen Kurs
+    url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
+    response = requests.get(url)
+    data = response.json()
+
+    current_price = data['Global Quote']['05. price']
+    st.write(f"Aktueller Kurs von {symbol}: ${current_price}")
+
+    # Beispiel-Datenframe
+df = pd.DataFrame({
+    'date': ['2023-04-10', '2023-04-11', '2023-04-12', '2023-04-13', '2023-04-14'],
+    'close': [150, 152, 153, 155, 154]
+})
+
+# Berechnung des gleitenden Durchschnitts
+df['SMA'] = df['close'].rolling(window=3).mean()
+
+# Aktuellen Kurs und SMA vergleichen
+latest_close = df.iloc[-1]['close']
+latest_sma = df.iloc[-1]['SMA']
+
+if latest_close > latest_sma:
+    recommendation = 'Kaufen'
+else:
+    recommendation = 'Verkaufen'
+
+st.write(f"Empfehlung: {recommendation}")
 
 st.title('Trading App')
 
