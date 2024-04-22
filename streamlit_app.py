@@ -21,9 +21,11 @@ if stock_symbol:
     except KeyError:
         st.error('Fehler beim Abrufen des aktuellen Kurses. Bitte überprüfen Sie das Symbol und versuchen Sie es erneut.')
 
-    # Laden der Aktiendaten
+    # Laden der Aktiendaten für die letzten 3 Monate
+    end_date = pd.Timestamp.today()  # heutiges Datum
+    start_date = end_date - pd.DateOffset(months=3)  # Datum vor drei Monaten
     try:
-        stock_data = yf.download(stock_symbol, start='2022-01-01', end='2022-12-31')
+        stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
         if not stock_data.empty:
             st.write(stock_data.head())  # Anzeige der ersten paar Zeilen der Aktiendaten
 
@@ -40,11 +42,11 @@ if stock_symbol:
             st.write(f"Empfehlung: {recommendation}")
 
             # Darstellung der Aktiengrafik
-            st.subheader('Historische Kursdaten')
+            st.subheader('Kursentwicklung der letzten 3 Monate')
             plt.figure(figsize=(10, 6))
             plt.plot(stock_data['Close'], label='Schlusskurs')
             plt.plot(stock_data['SMA'], label='SMA')
-            plt.title('Historische Kursdaten für ' + stock_symbol)
+            plt.title('Kursentwicklung für ' + stock_symbol)
             plt.xlabel('Datum')
             plt.ylabel('Schlusskurs ($)')
             plt.legend()
