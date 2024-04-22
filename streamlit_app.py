@@ -34,12 +34,17 @@ if stock_symbol:
             latest_close = stock_data['Close'].iloc[-1]
             latest_sma = stock_data['SMA'].iloc[-1]
 
+            # Durchschnitt der Schlusskurse über die letzten 3 Monate
+            average_close = stock_data['Close'].mean()
+
             if latest_close > latest_sma:
                 recommendation = 'Kaufen'
             else:
                 recommendation = 'Verkaufen'
-            
+
             st.write(f"Empfehlung: {recommendation}")
+            st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
+            st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
 
             # Darstellung der Aktiengrafik
             st.subheader('Kursentwicklung der letzten 3 Monate')
