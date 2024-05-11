@@ -83,9 +83,9 @@ if stock_symbol:
     st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
 
     # Darstellung der Aktiendaten
-    plt.figure(figsize=(10, 5))
-    plt.plot(stock_data['Close'], label='Schlusskurs')
-    plt.plot(stock_data['SMA'], label='SMA (20 Tage)')
-    plt.title(f'Kursentwicklung von {stock_symbol}')
-    plt.legend()
-    st.pyplot()
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(stock_data['Close'], label='Schlusskurs')
+    ax.plot(stock_data['SMA'], label='SMA (20 Tage)')
+    ax.set_title(f'Kursentwicklung von {stock_symbol}')
+    ax.legend()
+    st.pyplot(fig)
