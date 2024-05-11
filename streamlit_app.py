@@ -72,4 +72,20 @@ if stock_symbol:
     end_date = pd.Timestamp.today()
     start_date = end_date - pd.DateOffset(months=3)
     stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
-    stock_data['SMA'] = stock_data['Close'].rolling(window
+    stock_data['SMA'] = stock_data['Close'].rolling(window=20).mean()
+    average_close = stock_data['Close'].mean()
+    latest_sma = stock_data['SMA'].iloc[-1]
+
+    # Empfehlung basierend auf Risikoprofil
+    recommendation = 'Kaufen' if latest_sma > average_close else 'Verkaufen'
+    st.write(f"Empfehlung basierend auf Ihrem Risikoprofil ({tolerance}): {recommendation}")
+    st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
+    st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
+
+    # Darstellung der Aktiendaten
+    plt.figure(figsize=(10, 5))
+    plt.plot(stock_data['Close'], label='Schlusskurs')
+    plt.plot(stock_data['SMA'], label='SMA (20 Tage)')
+    plt.title(f'Kursentwicklung von {stock_symbol}')
+    plt.legend()
+    st.pyplot()
