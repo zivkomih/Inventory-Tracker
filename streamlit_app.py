@@ -17,8 +17,15 @@ Hier können Sie Ihr Portfolio nach Ihrem individuellen Risiko-Rendite-Profil op
 # Risikoprofil-Bewertung
 def calculate_risk_profile():
     st.subheader("Risiko-Reward Profilbewertung")
-    time = st.selectbox("Wie lange planen Sie zu investieren?", ("Weniger als 3 Jahre", "3 bis 10 Jahre", "Mehr als 10 Jahre"))
-    income = st.selectbox("Wie viel möchten Sie investieren?", ("Weniger als 100.000 CHF", "Zwischen 100.000 und 250.000 CHF", "Mehr als 250.000 CHF"))
+    time_options = {"Weniger als 3 Jahre": 1, "3 bis 10 Jahre": 2, "Mehr als 10 Jahre": 3}
+    income_options = {"Weniger als 100.000 CHF": 1, "Zwischen 100.000 und 250.000 CHF": 2, "Mehr als 250.000 CHF": 3}
+
+    time = st.selectbox("Wie lange planen Sie zu investieren?", list(time_options.keys()))
+    income = st.selectbox("Wie viel möchten Sie investieren?", list(income_options.keys()))
+
+    time_value = time_options[time]
+    income_value = income_options[income]
+
     finpriority = st.slider("Finanzielle Sicherheit ist mir sehr wichtig.", 1, 4, 3)
     risk = st.slider("Ich bin risikoavers, wenn es um Investitionen geht.", 1, 4, 2)
     high_risk = st.slider("Ich bin bereit, für höhere Renditen höhere Risiken einzugehen.", 1, 4, 2)
@@ -26,7 +33,7 @@ def calculate_risk_profile():
     min_loss = st.slider("Auch minimale Verluste beunruhigen mich.", 1, 4, 3)
 
     # Risikoberechnung
-    risk_capacity = (int(income) + int(time)) / 2
+    risk_capacity = (time_value + income_value) / 2
     risk_tolerance = (finpriority + risk + high_risk + loss + min_loss) / 5
 
     if risk_capacity < 2:
@@ -44,10 +51,7 @@ def calculate_risk_profile():
         tolerance_category = 'Aggressiv'
 
     return capacity_category, tolerance_category
-
-capacity, tolerance = calculate_risk_profile()
-st.write("Ihr Kapazitätsprofil:", capacity)
-st.write("Ihr Toleranzprofil:", tolerance)
+ 
 
 # Aktienauswahl und -analyse
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
