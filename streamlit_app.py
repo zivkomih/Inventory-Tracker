@@ -14,6 +14,35 @@ Wir freuen uns, Sie an Bord zu haben, um gemeinsam in Ihre finanzielle Zukunft z
 Hier können Sie Ihr Portfolio nach Ihrem individuellen Risiko-Rendite-Profil optimieren.
 """)
 
+# Definition der Risikoklassifikationen auf Deutsch
+def determine_risk_appetite_category(risk_appetite):
+    if risk_appetite < 2.5:
+        return "Verringert"
+    elif risk_appetite < 3.5:
+        return "Mittel"
+    else:
+        return "Erhöht"
+
+def determine_risk_capacity_category(risk_capacity):
+    if risk_capacity <= 1.5:
+        return "Tief"
+    elif risk_capacity <= 2.5:
+        return "Mittel"
+    else:
+        return "Hoch"
+
+def determine_risk_profile_category(risk_profile):
+    if risk_profile < 2:
+        return "Konservativ"
+    elif risk_profile < 3:
+        return "Moderat Konservativ"
+    elif risk_profile < 4:
+        return "Moderat"
+    elif risk_profile < 5:
+        return "Moderat Aggressiv"
+    else:
+        return "Aggressiv"
+
 # Risikoprofil-Bewertung
 def calculate_risk_profile():
     st.subheader("Risiko-Reward Profilbewertung")
@@ -26,46 +55,31 @@ def calculate_risk_profile():
     time_value = time_options[time]
     income_value = income_options[income]
 
-    finpriority = st.slider("Finanzielle Sicherheit ist mir sehr wichtig.", 1, 4, 3)
-    risk = st.slider("Ich bin risikoavers, wenn es um Investitionen geht.", 1, 4, 2)
-    high_risk = st.slider("Ich bin bereit, für höhere Renditen höhere Risiken einzugehen.", 1, 4, 3)
-    loss = st.slider("Das Risiko von Verlusten beunruhigt mich sehr.", 1, 4, 3)
-    min_loss = st.slider("Auch minimale Verluste beunruhigen mich.", 1, 4, 2)
+    # Anpassung der Slider zu vollständigen Textoptionen
+    options = ["Vollständig dagegen", "Eher dagegen", "Eher dafür", "Vollständig dafür"]
+    finpriority = st.select_slider("Finanzielle Sicherheit ist mir sehr wichtig.", options=options, value="Vollständig dafür")
+    risk = st.select_slider("Ich bin risikoavers, wenn es um Investitionen geht.", options=options, value="Eher dafür")
+    high_risk = st.select_slider("Ich bin bereit, für höhere Renditen höhere Risiken einzugehen.", options=options, value="Eher dafür")
+    loss = st.select_slider("Das Risiko von Verlusten beunruhigt mich sehr.", options=options, value="Eher dafür")
+    min_loss = st.select_slider("Auch minimale Verluste beunruhigen mich.", options=options, value="Eher dafür")
 
-    # Risikoberechnung
+    # Umrechnung der Slider-Antworten in numerische Werte für die Berechnung
+    slider_values = {"Vollständig dagegen": 1, "Eher dagegen": 2, "Eher dafür": 3, "Vollständig dafür": 4}
+    risk_appetite = (slider_values[finpriority] + slider_values[high_risk]) / 2
     risk_capacity = (time_value + income_value) / 2
-    risk_tolerance = (risk + loss + min_loss) / 3
-    risk_appetite = (finpriority + high_risk) / 2  # Neu berechneter Wert für Risiko Appetit
+    risk_profile = (slider_values[risk] + slider_values[loss] + slider_values[min_loss]) / 3
 
-    # Skalierung für Risiko Appetit von verringert bis erhöht
-    if risk_appetite <= 1.5:
-        appetite_category = 'Verringert'
-    elif risk_appetite <= 2.5:
-        appetite_category = 'Mittel'
-    else:
-        appetite_category = 'Erhöht'
+    appetite_category = determine_risk_appetite_category(risk_appetite)
+    capacity_category = determine_risk_capacity_category(risk_capacity)
+    profile_category = determine_risk_profile_category(risk_profile)
 
-    if risk_capacity <= 1.5:
-        capacity_category = 'Tief'
-    elif risk_capacity <= 2.5:
-        capacity_category = 'Mittel'
-    else:
-        capacity_category = 'Hoch'
-
-    if risk_tolerance < 2:
-        tolerance_category = 'Konservativ'
-    elif risk_tolerance < 3:
-        tolerance_category = 'Moderat'
-    else:
-        tolerance_category = 'Aggressiv'
-
-    return appetite_category, capacity_category, tolerance_category
+    return appetite_category, capacity_category, profile_category
 
 # Aufrufen der Funktion und Speichern der Ergebnisse
-risk_appetite, risk_capacity, risk_tolerance = calculate_risk_profile()
-st.write("Ihr Risiko Appetit:", risk_appetite)
-st.write("Ihr Kapazitätsprofil:", risk_capacity)
-st.write("Ihr Toleranzprofil:", risk_tolerance)
+appetite_category, capacity_category, profile_category = calculate_risk_profile()
+st.write("Ihr Risiko Appetit:", appetite_category)
+st.write("Ihr Kapazitätsprofil:", capacity_category)
+st.write("Ihr Risikoprofil:", profile_category)
 
 # Aktienauswahl und -analyse
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
