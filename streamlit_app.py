@@ -34,10 +34,17 @@ def calculate_risk_profile():
 
     # Risikoberechnung
     risk_capacity = (time_value + income_value) / 2
-    risk_tolerance = (finpriority + risk + high_risk + loss + min_loss) / 5
+    risk_tolerance = (risk + loss + min_loss) / 3
     risk_appetite = (finpriority + high_risk) / 2  # Neu berechneter Wert für Risiko Appetit
 
-    # Um die Risikokapazität von tief bis hoch zu kategorisieren
+    # Skalierung für Risiko Appetit von verringert bis erhöht
+    if risk_appetite <= 1.5:
+        appetite_category = 'Verringert'
+    elif risk_appetite <= 2.5:
+        appetite_category = 'Mittel'
+    else:
+        appetite_category = 'Erhöht'
+
     if risk_capacity <= 1.5:
         capacity_category = 'Tief'
     elif risk_capacity <= 2.5:
@@ -52,13 +59,13 @@ def calculate_risk_profile():
     else:
         tolerance_category = 'Aggressiv'
 
-    return risk_appetite, risk_capacity, risk_tolerance, capacity_category
+    return appetite_category, capacity_category, tolerance_category
 
 # Aufrufen der Funktion und Speichern der Ergebnisse
-risk_appetite, risk_capacity, risk_tolerance, capacity = calculate_risk_profile()
-st.write("Ihr Risiko Appetit:", 'Hoch' if risk_appetite >= 3 else 'Niedrig')
-st.write("Ihr Kapazitätsprofil:", capacity)
-st.write("Ihr Toleranzprofil:", 'Konservativ' if risk_tolerance < 2 else 'Moderat' if risk_tolerance < 3 else 'Aggressiv')
+risk_appetite, risk_capacity, risk_tolerance = calculate_risk_profile()
+st.write("Ihr Risiko Appetit:", risk_appetite)
+st.write("Ihr Kapazitätsprofil:", risk_capacity)
+st.write("Ihr Toleranzprofil:", risk_tolerance)
 
 # Aktienauswahl und -analyse
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
