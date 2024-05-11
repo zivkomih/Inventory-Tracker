@@ -28,34 +28,22 @@ def calculate_risk_profile():
 
     finpriority = st.slider("Finanzielle Sicherheit ist mir sehr wichtig.", 1, 4, 3)
     risk = st.slider("Ich bin risikoavers, wenn es um Investitionen geht.", 1, 4, 2)
-    high_risk = st.slider("Ich bin bereit, für höhere Renditen höhere Risiken einzugehen.", 1, 4, 2)
+    high_risk = st.slider("Ich bin bereit, für höhere Renditen höhere Risiken einzugehen.", 1, 4, 3)
     loss = st.slider("Das Risiko von Verlusten beunruhigt mich sehr.", 1, 4, 3)
-    min_loss = st.slider("Auch minimale Verluste beunruhigen mich.", 1, 4, 3)
+    min_loss = st.slider("Auch minimale Verluste beunruhigen mich.", 1, 4, 2)
 
     # Risikoberechnung
     risk_capacity = (time_value + income_value) / 2
-    risk_tolerance = (finpriority + risk + high_risk + loss + min_loss) / 5
+    risk_tolerance = (risk + loss + min_loss) / 3
+    risk_appetite = (finpriority + high_risk) / 2  # Neu berechneter Wert für Risiko Appetit
 
-    if risk_capacity < 2:
-        capacity_category = 'Konservativ'
-    elif risk_capacity < 3:
-        capacity_category = 'Moderat'
-    else:
-        capacity_category = 'Aggressiv'
-
-    if risk_tolerance < 2:
-        tolerance_category = 'Konservativ'
-    elif risk_tolerance < 3:
-        tolerance_category = 'Moderat'
-    else:
-        tolerance_category = 'Aggressiv'
-
-    return capacity_category, tolerance_category
+    return risk_appetite, risk_capacity, risk_tolerance
 
 # Aufrufen der Funktion und Speichern der Ergebnisse
-capacity, tolerance = calculate_risk_profile()
-st.write("Ihr Kapazitätsprofil:", capacity)
-st.write("Ihr Toleranzprofil:", tolerance)
+risk_appetite, risk_capacity, risk_tolerance = calculate_risk_profile()
+st.write("Ihr Risiko Appetit:", 'Hoch' if risk_appetite >= 3 else 'Niedrig')
+st.write("Ihr Kapazitätsprofil:", 'Konservativ' if risk_capacity < 2 else 'Moderat' if risk_capacity < 3 else 'Aggressiv')
+st.write("Ihr Toleranzprofil:", 'Konservativ' if risk_tolerance < 2 else 'Moderat' if risk_tolerance < 3 else 'Aggressiv')
 
 # Aktienauswahl und -analyse
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
@@ -78,7 +66,7 @@ if stock_symbol:
 
     # Empfehlung basierend auf Risikoprofil
     recommendation = 'Kaufen' if latest_sma > average_close else 'Verkaufen'
-    st.write(f"Empfehlung basierend auf Ihrem Risikoprofil ({tolerance}): {recommendation}")
+    st.write(f"Empfehlung basierend auf Ihrem Risikoprofil: {recommendation}")
     st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
     st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
 
