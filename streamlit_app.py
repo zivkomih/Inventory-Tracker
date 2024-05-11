@@ -34,15 +34,30 @@ def calculate_risk_profile():
 
     # Risikoberechnung
     risk_capacity = (time_value + income_value) / 2
-    risk_tolerance = (risk + loss + min_loss) / 3
+    risk_tolerance = (finpriority + risk + high_risk + loss + min_loss) / 5
     risk_appetite = (finpriority + high_risk) / 2  # Neu berechneter Wert für Risiko Appetit
 
-    return risk_appetite, risk_capacity, risk_tolerance
+    # Um die Risikokapazität von tief bis hoch zu kategorisieren
+    if risk_capacity <= 1.5:
+        capacity_category = 'Tief'
+    elif risk_capacity <= 2.5:
+        capacity_category = 'Mittel'
+    else:
+        capacity_category = 'Hoch'
+
+    if risk_tolerance < 2:
+        tolerance_category = 'Konservativ'
+    elif risk_tolerance < 3:
+        tolerance_category = 'Moderat'
+    else:
+        tolerance_category = 'Aggressiv'
+
+    return risk_appetite, risk_capacity, risk_tolerance, capacity_category
 
 # Aufrufen der Funktion und Speichern der Ergebnisse
-risk_appetite, risk_capacity, risk_tolerance = calculate_risk_profile()
+risk_appetite, risk_capacity, risk_tolerance, capacity = calculate_risk_profile()
 st.write("Ihr Risiko Appetit:", 'Hoch' if risk_appetite >= 3 else 'Niedrig')
-st.write("Ihr Kapazitätsprofil:", 'Konservativ' if risk_capacity < 2 else 'Moderat' if risk_capacity < 3 else 'Aggressiv')
+st.write("Ihr Kapazitätsprofil:", capacity)
 st.write("Ihr Toleranzprofil:", 'Konservativ' if risk_tolerance < 2 else 'Moderat' if risk_tolerance < 3 else 'Aggressiv')
 
 # Aktienauswahl und -analyse
@@ -53,27 +68,4 @@ if stock_symbol:
     url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={stock_symbol}&apikey=DEINSCHLÜSSEL'
     response = requests.get(url)
     data = response.json()
-    current_price = data.get('Global Quote', {}).get('05. price', 'Nicht verfügbar')
-    st.write(f"Aktueller Kurs von {stock_symbol}: ${current_price}")
-
-    # Historische Daten laden
-    end_date = pd.Timestamp.today()
-    start_date = end_date - pd.DateOffset(months=3)
-    stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
-    stock_data['SMA'] = stock_data['Close'].rolling(window=20).mean()
-    average_close = stock_data['Close'].mean()
-    latest_sma = stock_data['SMA'].iloc[-1]
-
-    # Empfehlung basierend auf Risikoprofil
-    recommendation = 'Kaufen' if latest_sma > average_close else 'Verkaufen'
-    st.write(f"Empfehlung basierend auf Ihrem Risikoprofil: {recommendation}")
-    st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
-    st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
-
-    # Darstellung der Aktiendaten
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(stock_data['Close'], label='Schlusskurs')
-    ax.plot(stock_data['SMA'], label='SMA (20 Tage)')
-    ax.set_title(f'Kursentwicklung von {stock_symbol}')
-    ax.legend()
-    st.pyplot(fig)
+    current_price = data.get('Global Quote', {}).get('05. price',
