@@ -55,7 +55,6 @@ def calculate_risk_profile():
     time_value = time_options[time]
     income_value = income_options[income]
 
-    # Anpassung der Slider zu vollständigen Textoptionen
     options = ["Vollständig dagegen", "Eher dagegen", "Eher dafür", "Vollständig dafür"]
     finpriority = st.select_slider("Finanzielle Sicherheit ist mir sehr wichtig.", options=options, value="Vollständig dafür")
     risk = st.select_slider("Ich bin risikoavers, wenn es um Investitionen geht.", options=options, value="Eher dafür")
@@ -63,53 +62,11 @@ def calculate_risk_profile():
     loss = st.select_slider("Das Risiko von Verlusten beunruhigt mich sehr.", options=options, value="Eher dafür")
     min_loss = st.select_slider("Auch minimale Verluste beunruhigen mich.", options=options, value="Eher dafür")
 
-    # Umrechnung der Slider-Antworten in numerische Werte für die Berechnung
     slider_values = {"Vollständig dagegen": 1, "Eher dagegen": 2, "Eher dafür": 3, "Vollständig dafür": 4}
     risk_appetite = (slider_values[finpriority] + slider_values[high_risk]) / 2
     risk_capacity = (time_value + income_value) / 2
     risk_profile = (slider_values[risk] + slider_values[loss] + slider_values[min_loss]) / 3
 
     appetite_category = determine_risk_appetite_category(risk_appetite)
-    capacity_category = determine_risk_capacity_category(risk_capacity)
-    profile_category = determine_risk_profile_category(risk_profile)
+    capacity
 
-    return appetite_category, capacity_category, profile_category
-
-# Aufrufen der Funktion und Speichern der Ergebnisse
-appetite_category, capacity_category, profile_category = calculate_risk_profile()
-st.write("Ihr Risiko Appetit:", appetite_category)
-st.write("Ihr Kapazitätsprofil:", capacity_category)
-st.write("Ihr Risikoprofil:", profile_category)
-
-# Aktienauswahl und -analyse
-stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
-
-if stock_symbol:
-    # Abrufen des aktuellen Kurses
-    url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={stock_symbol}&apikey=DEINSCHLÜSSEL'
-    response = requests.get(url)
-    data = response.json()
-    current_price = data.get('Global Quote', {}).get('05. price', 'Nicht verfügbar')
-    st.write(f"Aktueller Kurs von {stock_symbol}: ${current_price}")
-
-    # Historische Daten laden
-    end_date = pd.Timestamp.today()
-    start_date = end_date - pd.DateOffset(months=3)
-    stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
-    stock_data['SMA'] = stock_data['Close'].rolling(window=20).mean()
-    average_close = stock_data['Close'].mean()
-    latest_sma = stock_data['SMA'].iloc[-1]
-
-    # Empfehlung basierend auf Risikoprofil
-    recommendation = 'Kaufen' if latest_sma > average_close else 'Verkaufen'
-    st.write(f"Empfehlung basierend auf Ihrem Risikoprofil: {recommendation}")
-    st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
-    st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
-
-    # Darstellung der Aktiendaten
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(stock_data['Close'], label='Schlusskurs')
-    ax.plot(stock_data['SMA'], label='SMA (20 Tage)')
-    ax.set_title(f'Kursentwicklung von {stock_symbol}')
-    ax.legend()
-    st.pyplot(fig)
