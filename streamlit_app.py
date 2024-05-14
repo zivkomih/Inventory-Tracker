@@ -68,5 +68,43 @@ def calculate_risk_profile():
     risk_profile = (slider_values[risk] + slider_values[loss] + slider_values[min_loss]) / 3
 
     appetite_category = determine_risk_appetite_category(risk_appetite)
-    capacity
+    capacity_category = determine_risk_capacity_category(risk_capacity)
+    profile_category = determine_risk_profile_category(risk_profile)
 
+    return appetite_category, capacity_category, profile_category
+
+appetite_category, capacity_category, profile_category = calculate_risk_profile()
+st.write("Ihr Risiko Appetit:", appetite_category)
+st.write("Ihr Kapazitätsprofil:", capacity_capacity)
+st.write("Ihr Risikoprofil:", profile_category)
+
+stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
+
+if stock_symbol:
+    url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={stock_symbol}&apikey=DEINSCHLÜSSEL'
+    response = requests.get(url)
+    data = response.json()
+    current_price = data.get('Global Quote', {}).get('05. price', 'Nicht verfügbar')
+    st.write(f"Aktueller Kurs von {stock_symbol}: ${current_price}")
+
+    end_date = pd.Timestamp.today()
+    start_date = end_date - pd.DateOffset(months=3)
+    stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
+    stock_data['SMA'] = stock_data['Close'].rolling(window=20).mean()
+    average_close = stock_data['Close'].mean()
+
+    if not stock_data['SMA'].empty:
+        latest_sma = stock_data['SMA'].iloc[-1]
+        recommendation = 'Kaufen' if latest_sma > average_close else 'Verkaufen'
+        st.write(f"Empfehlung basierend auf Ihrem Risikoprofil: {recommendation}")
+        st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
+        st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
+    else:
+        st.error("Es sind keine ausreichenden Daten verfügbar, um den gleitenden Durchschnitt zu berechnen.")
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(stock_data['Close'], label='Schlusskurs')
+    ax.plot(stock_data['SMA'], label='SMA (20 Tage)')
+    ax.set_title(f'Kursentwicklung von {stock_symbol}')
+    ax.legend()
+    st.pyplot(fig)
