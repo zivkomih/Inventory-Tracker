@@ -55,7 +55,6 @@ def calculate_risk_profile():
     time_value = time_options[time]
     income_value = income_options[income]
 
-    # Anpassung der Slider zu vollständigen Textoptionen
     options = ["Vollständig dagegen", "Eher dagegen", "Eher dafür", "Vollständig dafür"]
     finpriority = st.select_slider("Finanzielle Sicherheit ist mir sehr wichtig.", options=options, value="Vollständig dafür")
     risk = st.select_slider("Ich bin risikoavers, wenn es um Investitionen geht.", options=options, value="Eher dafür")
@@ -63,7 +62,6 @@ def calculate_risk_profile():
     loss = st.select_slider("Das Risiko von Verlusten beunruhigt mich sehr.", options=options, value="Eher dafür")
     min_loss = st.select_slider("Auch minimale Verluste beunruhigen mich.", options=options, value="Eher dafür")
 
-    # Umrechnung der Slider-Antworten in numerische Werte für die Berechnung
     slider_values = {"Vollständig dagegen": 1, "Eher dagegen": 2, "Eher dafür": 3, "Vollständig dafür": 4}
     risk_appetite = (slider_values[finpriority] + slider_values[high_risk]) / 2
     risk_capacity = (time_value + income_value) / 2
@@ -75,13 +73,11 @@ def calculate_risk_profile():
 
     return appetite_category, capacity_category, profile_category
 
-# Aufrufen der Funktion und Speichern der Ergebnisse
 appetite_category, capacity_category, profile_category = calculate_risk_profile()
 st.write("Ihr Risiko Appetit:", appetite_category)
 st.write("Ihr Kapazitätsprofil:", capacity_category)
 st.write("Ihr Risikoprofil:", profile_category)
 
-# Aktienauswahl und -analyse
 stock_symbol = st.text_input('Geben Sie das Aktiensymbol ein (z.B. AAPL für Apple):')
 
 if stock_symbol:
@@ -101,8 +97,13 @@ if stock_symbol:
     latest_sma = stock_data['SMA'].iloc[-1]
 
     # Empfehlung basierend auf Risikoprofil
-    recommendation = 'Kaufen' if latest_sma > average_close else 'Verkaufen'
-    st.write(f"Empfehlung basierend auf Ihrem Risikoprofil: {recommendation}")
+    if latest_sma > average_close:
+        recommendation = 'Kaufen'
+        st.success(f"🔥 Empfehlung: {recommendation} 🔥")
+    else:
+        recommendation = 'Verkaufen'
+        st.error(f"🔥 Empfehlung: {recommendation} 🔥")
+
     st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
     st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
 
