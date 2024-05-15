@@ -106,16 +106,18 @@ if stock_symbol:
         # Durchschnitt der Schlusskurse über die letzten 3 Monate
         average_close = stock_data['Close'].mean()
 
+        # Empfehlung mit Hervorhebung darstellen
         if latest_close > latest_sma:
             recommendation = 'Kaufen'
+            st.success(f"Empfehlung: {recommendation}")
         else:
             recommendation = 'Verkaufen'
+            st.error(f"Empfehlung: {recommendation}")
 
-        st.write(f"Empfehlung: {recommendation}")
         st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
         st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
 
-        # Darstellung der Aktiengrafik
+        # Erste Grafik: Kursentwicklung
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(stock_data['Close'], label='Schlusskurs')
         ax.plot(stock_data['SMA'], label='SMA')
@@ -124,5 +126,15 @@ if stock_symbol:
         ax.set_ylabel('Schlusskurs ($)')
         ax.legend()
         st.pyplot(fig)
+
+        # Zweite Grafik: Beispiel für eine Portfolioverteilung
+        st.subheader('Beispielhafte Portfolioverteilung')
+        portfolio_data = {"AAPL": 30, "MSFT": 30, "GOOGL": 20, "AMZN": 20}
+        fig2, ax2 = plt.subplots()
+        ax2.pie(portfolio_data.values(), labels=portfolio_data.keys(), autopct='%1.1f%%', startangle=90)
+        ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        st.pyplot(fig2)
+
     else:
         st.error('Keine historischen Daten für das Symbol gefunden.')
+
