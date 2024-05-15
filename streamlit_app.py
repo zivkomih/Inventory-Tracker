@@ -96,41 +96,33 @@ if stock_symbol:
     # Laden der Aktiendaten für die letzten 3 Monate
     end_date = pd.Timestamp.today()  # heutiges Datum
     start_date = end_date - pd.DateOffset(months=3)  # Datum vor drei Monaten
-    try:
-        stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
-        if not stock_data.empty:
-            st.write(stock_data.head())  # Anzeige der ersten paar Zeilen der Aktiendaten
+    stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
 
-            # Berechnung des gleitenden Durchschnitts
-            stock_data['SMA'] = stock_data['Close'].rolling(window=3).mean()
-            latest_close = stock_data['Close'].iloc[-1]
-            latest_sma = stock_data['SMA'].iloc[-1]
+    if not stock_data.empty:
+        stock_data['SMA'] = stock_data['Close'].rolling(window=3).mean()  # Berechnung des gleitenden Durchschnitts
+        latest_close = stock_data['Close'].iloc[-1]
+        latest_sma = stock_data['SMA'].iloc[-1]
 
-            # Durchschnitt der Schlusskurse über die letzten 3 Monate
-            average_close = stock_data['Close'].mean()
+        # Durchschnitt der Schlusskurse über die letzten 3 Monate
+        average_close = stock_data['Close'].mean()
 
-            if latest_close > latest_sma:
-                recommendation = 'Kaufen'
-            else:
-                recommendation = 'Verkaufen'
-
-            st.write(f"Empfehlung: {recommendation}")
-            st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
-            st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
-
-            # Darstellung der Aktiengrafik
-            st.subheader('Kursentwicklung der letzten 3 Monate')
-            plt.figure(figsize=(10, 6))
-            plt.plot(stock_data['Close'], label='Schlusskurs')
-            plt.plot(stock_data['SMA'], label='SMA')
-            plt.title('Kursentwicklung für ' + stock_symbol)
-            plt.xlabel('Datum')
-            plt.ylabel('Schlusskurs ($)')
-            plt.legend()
-            st.pyplot()
-
+        if latest_close > latest_sma:
+            recommendation = 'Kaufen'
         else:
-            st.error('Keine historischen Daten für das Symbol gefunden.')
+            recommendation = 'Verkaufen'
 
-    except Exception as e:
-        st.error(f'Fehler beim Laden der Daten: {e}')
+        st.write(f"Empfehlung: {recommendation}")
+        st.write(f"Durchschnittlicher Schlusskurs der letzten 3 Monate: ${average_close:.2f}")
+        st.write(f"Aktueller gleitender Durchschnitt (SMA): ${latest_sma:.2f}")
+
+        # Darstellung der Aktiengrafik
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(stock_data['Close'], label='Schlusskurs')
+        ax.plot(stock_data['SMA'], label='SMA')
+        ax.set_title('Kursentwicklung für ' + stock_symbol)
+        ax.set_xlabel('Datum')
+        ax.set_ylabel('Schlusskurs ($)')
+        ax.legend()
+        st.pyplot(fig)
+    else:
+        st.error('Keine historischen Daten für das Symbol gefunden.')
