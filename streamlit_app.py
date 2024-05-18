@@ -44,37 +44,42 @@ if uploaded_file is not None:
         st.write("Datentypen der Spalten nach der Transposition")
         st.write(df.dtypes)
 
-        # Deskriptive Statistiken
-        st.write("Deskriptive Statistiken")
-        st.write(df.describe())
-
-        # Nur numerische Spalten auswählen
-        numerical_df = df.select_dtypes(include=[np.number])
-
-        # Überprüfen der numerischen Daten
-        st.write("Numerische Daten")
-        st.write(numerical_df.head())
-        st.write(numerical_df.describe())
-
-        # Korrelationen berechnen
-        correlation_matrix = numerical_df.corr()
-
-        # Überprüfen der Korrelationen
-        st.write("Korrelationen")
-        st.write(correlation_matrix)
-
-        # Bereinigung der Korrelationen (Entfernen von NaN-Werten)
-        cleaned_correlation_matrix = correlation_matrix.dropna(how='all').dropna(axis=1, how='all')
-
-        # Heatmap der Korrelationen
-        if not cleaned_correlation_matrix.empty:
-            st.write("Heatmap der Korrelationen")
-            plt.figure(figsize=(10, 8))
-            sns.heatmap(cleaned_correlation_matrix, annot=True, cmap='coolwarm')
-            st.pyplot(plt)
+        # Überprüfe, ob der transponierte DataFrame gültige numerische Spalten enthält
+        if df.empty or df.select_dtypes(include=[np.number]).empty:
+            st.write("Der transponierte DataFrame enthält keine gültigen numerischen Spalten.")
         else:
-            st.write("Keine gültigen Korrelationen vorhanden.")
+            # Deskriptive Statistiken
+            st.write("Deskriptive Statistiken")
+            st.write(df.describe())
+
+            # Nur numerische Spalten auswählen
+            numerical_df = df.select_dtypes(include=[np.number])
+
+            # Überprüfen der numerischen Daten
+            st.write("Numerische Daten")
+            st.write(numerical_df.head())
+            st.write(numerical_df.describe())
+
+            # Korrelationen berechnen
+            correlation_matrix = numerical_df.corr()
+
+            # Überprüfen der Korrelationen
+            st.write("Korrelationen")
+            st.write(correlation_matrix)
+
+            # Bereinigung der Korrelationen (Entfernen von NaN-Werten)
+            cleaned_correlation_matrix = correlation_matrix.dropna(how='all').dropna(axis=1, how='all')
+
+            # Heatmap der Korrelationen
+            if not cleaned_correlation_matrix.empty:
+                st.write("Heatmap der Korrelationen")
+                plt.figure(figsize=(10, 8))
+                sns.heatmap(cleaned_correlation_matrix, annot=True, cmap='coolwarm')
+                st.pyplot(plt)
+            else:
+                st.write("Keine gültigen Korrelationen vorhanden.")
     except Exception as e:
         st.error(f"Fehler beim Verarbeiten der Datei: {e}")
 else:
     st.write("Bitte lade eine Excel-Datei hoch.")
+
