@@ -1,63 +1,72 @@
+import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Beispiel-Daten erstellen basierend auf den Informationen
-data = {
-    'Category': [
-        'Spiritualität', 'Lebensbalance', 'Ökologische Nachhaltigkeit', 
-        'Finanzieller Wohlstand', 'Beziehungen', 'Interesse an Luxusgütern',
-        'Kaufmotive: Qualität', 'Kaufmotive: Komfort', 'Markenpräferenzen: Porsche', 
-        'Markenpräferenzen: Ferrari', 'Markenpräferenzen: Lamborghini',
-        'Nutzung öffentlicher Verkehrsmittel', 'Autonutzung', 'Flugreisen', 
-        'Fahrradnutzung', 'Car-Sharing', 'Transportkriterien: Bequemlichkeit', 
-        'Transportkriterien: Praktikabilität', 'Porsche und Spiritualität: Ja',
-        'Porsche und Spiritualität: Nein'
-    ],
-    'Percentage': [
-        20, 81, 8, 43, 86, 28, 66, 62, 53, 53, 53, 38, 45, 23, 15, 5, 62, 68, 19, 81
-    ]
+data_values_beliefs = {
+    'Category': ['Spiritualität', 'Lebensbalance', 'Ökologische Nachhaltigkeit', 'Finanzieller Wohlstand', 'Beziehungen'],
+    'Percentage': [20, 81, 8, 43, 86]
 }
 
-df = pd.DataFrame(data)
+data_luxury_purchase = {
+    'Category': ['Interesse an Luxusgütern', 'Kaufmotive: Qualität', 'Kaufmotive: Komfort', 'Markenpräferenzen: Porsche', 'Markenpräferenzen: Ferrari', 'Markenpräferenzen: Lamborghini'],
+    'Percentage': [28, 66, 62, 53, 53, 53]
+}
+
+data_mobility_preferences = {
+    'Category': ['Nutzung öffentlicher Verkehrsmittel', 'Autonutzung', 'Flugreisen', 'Fahrradnutzung', 'Car-Sharing', 'Transportkriterien: Bequemlichkeit', 'Transportkriterien: Praktikabilität'],
+    'Percentage': [38, 45, 23, 15, 5, 62, 68]
+}
+
+data_porsche_spirituality = {
+    'Category': ['Porsche und Spiritualität: Ja', 'Porsche und Spiritualität: Nein'],
+    'Percentage': [19, 81]
+}
+
+# Create DataFrames
+df_values_beliefs = pd.DataFrame(data_values_beliefs)
+df_luxury_purchase = pd.DataFrame(data_luxury_purchase)
+df_mobility_preferences = pd.DataFrame(data_mobility_preferences)
+df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality)
 
 # Set style for the plots
 sns.set(style="whitegrid")
 
-# Creating the plots
-fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+st.title("Umfrageergebnisse")
 
 # Plot 1: Werte und Überzeugungen
-values_beliefs = df.iloc[0:5]
-sns.barplot(ax=axes[0, 0], x='Percentage', y='Category', data=values_beliefs, palette="viridis")
-axes[0, 0].set_title('Werte und Überzeugungen')
-axes[0, 0].set_xlabel('Prozent')
-axes[0, 0].set_ylabel('')
+st.subheader('Werte und Überzeugungen')
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Percentage', y='Category', data=df_values_beliefs, palette="viridis")
+plt.title('Werte und Überzeugungen')
+plt.xlabel('Prozent')
+plt.ylabel('')
+st.pyplot(plt.gcf())
 
 # Plot 2: Luxuskaufentscheidungen
-luxury_purchase = df.iloc[5:11]
-sns.barplot(ax=axes[0, 1], x='Percentage', y='Category', data=luxury_purchase, palette="plasma")
-axes[0, 1].set_title('Luxuskaufentscheidungen')
-axes[0, 1].set_xlabel('Prozent')
-axes[0, 1].set_ylabel('')
+st.subheader('Luxuskaufentscheidungen')
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Percentage', y='Category', data=df_luxury_purchase, palette="plasma")
+plt.title('Luxuskaufentscheidungen')
+plt.xlabel('Prozent')
+plt.ylabel('')
+st.pyplot(plt.gcf())
 
 # Plot 3: Mobilitätspräferenzen
-mobility_preferences = df.iloc[11:18]
-sns.barplot(ax=axes[1, 0], x='Percentage', y='Category', data=mobility_preferences, palette="cubehelix")
-axes[1, 0].set_title('Mobilitätspräferenzen')
-axes[1, 0].set_xlabel('Prozent')
-axes[1, 0].set_ylabel('')
+st.subheader('Mobilitätspräferenzen')
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Percentage', y='Category', data=df_mobility_preferences, palette="cubehelix")
+plt.title('Mobilitätspräferenzen')
+plt.xlabel('Prozent')
+plt.ylabel('')
+st.pyplot(plt.gcf())
 
 # Plot 4: Verbindung zwischen Porsche und Spiritualität
-porsche_spirituality = df.iloc[18:20]
-sns.barplot(ax=axes[1, 1], x='Percentage', y='Category', data=porsche_spirituality, palette="magma")
-axes[1, 1].set_title('Verbindung zwischen Porsche und Spiritualität')
-axes[1, 1].set_xlabel('Prozent')
-axes[1, 1].set_ylabel('')
-
-plt.tight_layout()
-
-# Grafiken speichern
-plt.savefig('umfrage_grafiken_final.png')
-
-plt.show()
+st.subheader('Verbindung zwischen Porsche und Spiritualität')
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Percentage', y='Category', data=df_porsche_spirituality, palette="magma")
+plt.title('Verbindung zwischen Porsche und Spiritualität')
+plt.xlabel('Prozent')
+plt.ylabel('')
+st.pyplot(plt.gcf())
