@@ -15,15 +15,19 @@ if uploaded_file is not None:
         # Fehlende Daten bereinigen (Beispiel: Ersetze -77 und -99 durch NaN)
         df = df.replace([-77, -99], np.nan)
 
+        # Zeige die ersten Zeilen und Datentypen vor der Transposition
+        st.write("Erste Zeilen des ursprünglichen DataFrames")
+        st.write(df.head())
+        st.write("Datentypen der Spalten vor der Transposition")
+        st.write(df.dtypes)
+
         # Transponiere den DataFrame
         df = df.T
 
-        # Zeige die ersten Zeilen des transponierten DataFrames an
+        # Zeige die ersten Zeilen und Datentypen nach der Transposition
         st.write("Erste Zeilen des transponierten DataFrames")
         st.write(df.head())
-
-        # Zeige die Datentypen der Spalten an
-        st.write("Datentypen der Spalten")
+        st.write("Datentypen der Spalten nach der Transposition")
         st.write(df.dtypes)
 
         # Deskriptive Statistiken
