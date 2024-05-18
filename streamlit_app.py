@@ -21,8 +21,19 @@ if uploaded_file is not None:
         st.write("Datentypen der Spalten vor der Transposition")
         st.write(df.dtypes)
 
-        # Versuche, die Daten in numerische Typen zu konvertieren, falls möglich
-        df = df.apply(pd.to_numeric, errors='coerce')
+        # Konvertiere Prozentwerte zu numerischen Werten
+        def convert_percent(val):
+            if isinstance(val, str) and '%' in val:
+                return float(val.replace('%', '')) / 100
+            return val
+
+        df = df.applymap(convert_percent)
+
+        # Zeige die ersten Zeilen und Datentypen nach der Konvertierung
+        st.write("Erste Zeilen des DataFrames nach der Konvertierung")
+        st.write(df.head())
+        st.write("Datentypen der Spalten nach der Konvertierung")
+        st.write(df.dtypes)
 
         # Transponiere den DataFrame
         df = df.T
