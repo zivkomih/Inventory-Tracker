@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Datei einlesen
-file_path = r"C:\Users\mihae\Downloads\Porsche Survey Results.xls"
+file_path = 'Porsche Survey Results.xls'  # Der Pfad zur hochgeladenen Datei
 df = pd.read_excel(file_path)
 
 # Fehlende Daten bereinigen (Beispiel: Ersetze -77 und -99 durch NaN)
