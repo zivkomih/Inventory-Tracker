@@ -21,6 +21,9 @@ if uploaded_file is not None:
         st.write("Datentypen der Spalten vor der Transposition")
         st.write(df.dtypes)
 
+        # Versuche, die Daten in numerische Typen zu konvertieren, falls möglich
+        df = df.apply(pd.to_numeric, errors='coerce')
+
         # Transponiere den DataFrame
         df = df.T
 
@@ -36,6 +39,11 @@ if uploaded_file is not None:
 
         # Nur numerische Spalten auswählen
         numerical_df = df.select_dtypes(include=[np.number])
+
+        # Überprüfen der numerischen Daten
+        st.write("Numerische Daten")
+        st.write(numerical_df.head())
+        st.write(numerical_df.describe())
 
         # Korrelationen berechnen
         correlation_matrix = numerical_df.corr()
