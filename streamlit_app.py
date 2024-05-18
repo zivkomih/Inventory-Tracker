@@ -58,6 +58,6 @@ axes[1, 1].set_ylabel('')
 plt.tight_layout()
 
 # Grafiken speichern
-plt.savefig('umfrage_grafiken.png')
+plt.savefig('umfrage_grafiken_final.png')
 
 plt.show()
