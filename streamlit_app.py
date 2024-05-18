@@ -14,8 +14,11 @@ df = df.replace([-77, -99], pd.NA)
 st.write("Deskriptive Statistiken")
 st.write(df.describe())
 
+# Nur numerische Spalten auswählen
+numerical_df = df.select_dtypes(include=[float, int])
+
 # Korrelationen berechnen
-correlation_matrix = df.corr()
+correlation_matrix = numerical_df.corr()
 st.write("Korrelationen")
 st.write(correlation_matrix)
 
