@@ -1,26 +1,25 @@
-import streamlit as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# Beispiel-Daten erstellen basierend auf den Informationen
+# Sample data based on the provided information
 data_values_beliefs = {
-    'Category': ['Spiritualität', 'Lebensbalance', 'Ökologische Nachhaltigkeit', 'Finanzieller Wohlstand', 'Beziehungen'],
+    'Category': ['Spirituality', 'Life Balance', 'Environmental Sustainability', 'Financial Prosperity', 'Relationships'],
     'Percentage': [20, 81, 8, 43, 86]
 }
 
 data_luxury_purchase = {
-    'Category': ['Interesse an Luxusgütern', 'Kaufmotive: Qualität', 'Kaufmotive: Komfort', 'Markenpräferenzen: Porsche', 'Markenpräferenzen: Ferrari', 'Markenpräferenzen: Lamborghini'],
+    'Category': ['Interest in Luxury Goods', 'Purchase Motive: Quality', 'Purchase Motive: Comfort', 'Brand Preference: Porsche', 'Brand Preference: Ferrari', 'Brand Preference: Lamborghini'],
     'Percentage': [28, 66, 62, 53, 53, 53]
 }
 
 data_mobility_preferences = {
-    'Category': ['Nutzung öffentlicher Verkehrsmittel', 'Autonutzung', 'Flugreisen', 'Fahrradnutzung', 'Car-Sharing', 'Transportkriterien: Bequemlichkeit', 'Transportkriterien: Praktikabilität'],
+    'Category': ['Use of Public Transport', 'Car Usage', 'Air Travel', 'Bicycle Usage', 'Car Sharing', 'Transport Criteria: Convenience', 'Transport Criteria: Practicality'],
     'Percentage': [38, 45, 23, 15, 5, 62, 68]
 }
 
 data_porsche_spirituality = {
-    'Category': ['Porsche und Spiritualität: Ja', 'Porsche und Spiritualität: Nein'],
+    'Category': ['Porsche and Spirituality: Yes', 'Porsche and Spirituality: No'],
     'Percentage': [19, 81]
 }
 
@@ -33,40 +32,50 @@ df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality)
 # Set style for the plots
 sns.set(style="whitegrid")
 
-st.title("Umfrageergebnisse")
-
-# Plot 1: Werte und Überzeugungen
-st.subheader('Werte und Überzeugungen')
-plt.figure(figsize=(10, 6))
+# Plot 1: Values and Beliefs
+plt.figure(figsize=(12, 7))
 sns.barplot(x='Percentage', y='Category', data=df_values_beliefs, palette="viridis")
-plt.title('Werte und Überzeugungen')
-plt.xlabel('Prozent')
+plt.title('Values and Beliefs', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
 plt.ylabel('')
-st.pyplot(plt.gcf())
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+plt.savefig('values_and_beliefs.png')
+plt.show()
 
-# Plot 2: Luxuskaufentscheidungen
-st.subheader('Luxuskaufentscheidungen')
-plt.figure(figsize=(10, 6))
+# Plot 2: Luxury Purchase Decisions
+plt.figure(figsize=(12, 7))
 sns.barplot(x='Percentage', y='Category', data=df_luxury_purchase, palette="plasma")
-plt.title('Luxuskaufentscheidungen')
-plt.xlabel('Prozent')
+plt.title('Luxury Purchase Decisions', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
 plt.ylabel('')
-st.pyplot(plt.gcf())
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+plt.savefig('luxury_purchase_decisions.png')
+plt.show()
 
-# Plot 3: Mobilitätspräferenzen
-st.subheader('Mobilitätspräferenzen')
-plt.figure(figsize=(10, 6))
+# Plot 3: Mobility Preferences
+plt.figure(figsize=(12, 7))
 sns.barplot(x='Percentage', y='Category', data=df_mobility_preferences, palette="cubehelix")
-plt.title('Mobilitätspräferenzen')
-plt.xlabel('Prozent')
+plt.title('Mobility Preferences', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
 plt.ylabel('')
-st.pyplot(plt.gcf())
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+plt.savefig('mobility_preferences.png')
+plt.show()
 
-# Plot 4: Verbindung zwischen Porsche und Spiritualität
-st.subheader('Verbindung zwischen Porsche und Spiritualität')
-plt.figure(figsize=(10, 6))
+# Plot 4: Connection between Porsche and Spirituality
+plt.figure(figsize=(12, 7))
 sns.barplot(x='Percentage', y='Category', data=df_porsche_spirituality, palette="magma")
-plt.title('Verbindung zwischen Porsche und Spiritualität')
-plt.xlabel('Prozent')
+plt.title('Connection between Porsche and Spirituality', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
 plt.ylabel('')
-st.pyplot(plt.gcf())
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+plt.savefig('porsche_and_spirituality.png')
+plt.show()
