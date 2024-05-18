@@ -79,3 +79,4 @@ plt.yticks(fontsize=12)
 plt.grid(axis='x')
 plt.savefig('porsche_and_spirituality.png')
 plt.show()
+
