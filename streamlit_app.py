@@ -11,6 +11,14 @@ df = pd.read_excel(file_path)
 # Fehlende Daten bereinigen (Beispiel: Ersetze -77 und -99 durch NaN)
 df = df.replace([-77, -99], np.nan)
 
+# Zeige die ersten Zeilen des DataFrames an
+st.write("Erste Zeilen des DataFrames")
+st.write(df.head())
+
+# Zeige die Datentypen der Spalten an
+st.write("Datentypen der Spalten")
+st.write(df.dtypes)
+
 # Deskriptive Statistiken
 st.write("Deskriptive Statistiken")
 st.write(df.describe())
