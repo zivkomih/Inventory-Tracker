@@ -1,12 +1,13 @@
-import streamlit as st
 import pandas as pd
+import openpyxl
+import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
 # Datei einlesen
-file_path = 'Porsche Survey Results.xls'  # Der Pfad zur hochgeladenen Datei
-df = pd.read_excel(file_path)
+file_path = 'Porsche Survey Results.xlsx'  # Der Pfad zur hochgeladenen Datei
+df = pd.read_excel(file_path, engine='openpyxl')
 
 # Fehlende Daten bereinigen (Beispiel: Ersetze -77 und -99 durch NaN)
 df = df.replace([-77, -99], np.nan)
