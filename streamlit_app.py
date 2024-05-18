@@ -5,27 +5,24 @@ import matplotlib.pyplot as plt
 
 # Beispiel-Daten basierend auf den vorherigen Informationen
 data = {
-    'Age': [21, 22, 23, 24, 25],
-    'Spirituality_Importance': [4, 5, 6, 5, 6],
-    'Life_Balance_Importance': [5, 6, 7, 6, 7],
-    'Environmental_Sustainability_Importance': [3, 2, 1, 2, 1],
-    'Financial_Prosperity_Importance': [6, 5, 4, 5, 6],
-    'Relationships_Importance': [7, 6, 5, 6, 7],
-    'Interest_in_Luxury_Goods': [2, 3, 4, 3, 4],
-    'Purchase_Motive_Quality': [6, 6, 7, 6, 7],
-    'Purchase_Motive_Comfort': [5, 5, 6, 5, 6],
-    'Brand_Preference_Porsche': [4, 5, 6, 5, 6],
-    'Brand_Preference_Ferrari': [3, 4, 5, 4, 5],
-    'Brand_Preference_Lamborghini': [2, 3, 4, 3, 4],
-    'Use_of_Public_Transport': [5, 4, 3, 4, 3],
-    'Car_Usage': [6, 7, 6, 7, 6],
-    'Air_Travel': [4, 3, 2, 3, 2],
-    'Bicycle_Usage': [3, 2, 1, 2, 1],
-    'Car_Sharing': [2, 1, 0, 1, 0],
-    'Transport_Criteria_Convenience': [6, 7, 6, 7, 6],
-    'Transport_Criteria_Practicality': [5, 6, 5, 6, 5],
-    'Porsche_and_Spirituality_Yes': [1, 0, 1, 0, 1],
-    'Porsche_and_Spirituality_No': [0, 1, 0, 1, 0]
+    'Spirituality Importance': [4, 5, 6, 5, 6, 4, 5, 6, 5, 6],
+    'Life Balance Importance': [5, 6, 7, 6, 7, 5, 6, 7, 6, 7],
+    'Environmental Sustainability Importance': [3, 2, 1, 2, 1, 3, 2, 1, 2, 1],
+    'Financial Prosperity Importance': [6, 5, 4, 5, 6, 6, 5, 4, 5, 6],
+    'Relationships Importance': [7, 6, 5, 6, 7, 7, 6, 5, 6, 7],
+    'Interest in Luxury Goods': [2, 3, 4, 3, 4, 2, 3, 4, 3, 4],
+    'Purchase Motive Quality': [6, 6, 7, 6, 7, 6, 6, 7, 6, 7],
+    'Purchase Motive Comfort': [5, 5, 6, 5, 6, 5, 5, 6, 5, 6],
+    'Brand Preference Porsche': [4, 5, 6, 5, 6, 4, 5, 6, 5, 6],
+    'Brand Preference Ferrari': [3, 4, 5, 4, 5, 3, 4, 5, 4, 5],
+    'Brand Preference Lamborghini': [2, 3, 4, 3, 4, 2, 3, 4, 3, 4],
+    'Use of Public Transport': [5, 4, 3, 4, 3, 5, 4, 3, 4, 3],
+    'Car Usage': [6, 7, 6, 7, 6, 6, 7, 6, 7, 6],
+    'Air Travel': [4, 3, 2, 3, 2, 4, 3, 2, 3, 2],
+    'Bicycle Usage': [3, 2, 1, 2, 1, 3, 2, 1, 2, 1],
+    'Car Sharing': [2, 1, 0, 1, 0, 2, 1, 0, 1, 0],
+    'Transport Criteria Convenience': [6, 7, 6, 7, 6, 6, 7, 6, 7, 6],
+    'Transport Criteria Practicality': [5, 6, 5, 6, 5, 5, 6, 5, 6, 5]
 }
 
 df = pd.DataFrame(data)
@@ -41,20 +38,12 @@ st.title("Survey Results and Correlations")
 # Plot: Simplified Correlation Heatmap
 st.subheader('Simplified Correlation Heatmap')
 plt.figure(figsize=(10, 8))
-heatmap = sns.heatmap(
-    correlation_matrix,
-    annot=True,
-    fmt=".2f",
-    cmap='coolwarm',
-    cbar=True,
-    linewidths=0.5,
-    linecolor='gray',
-    square=True
-)
-heatmap.set_title('Correlation Matrix', fontsize=16)
+mask = correlation_matrix.abs() < 0.5  # Mask less significant correlations
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0, mask=mask, cbar_kws={'label': 'Correlation Coefficient'})
+plt.title('Simplified Correlation Matrix', fontsize=16)
 plt.xticks(fontsize=10, rotation=45)
 plt.yticks(fontsize=10)
-plt.tight_layout()
 st.pyplot(plt.gcf())
+
 
 
