@@ -3,82 +3,47 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Sample data based on the provided information
-data_values_beliefs = {
-    'Category': ['Spirituality', 'Life Balance', 'Environmental Sustainability', 'Financial Prosperity', 'Relationships'],
-    'Percentage': [20, 81, 8, 43, 86]
+# Beispiel-Daten basierend auf den vorherigen Informationen
+data = {
+    'Age': [21, 22, 23, 24, 25],
+    'Spirituality_Importance': [4, 5, 6, 5, 6],
+    'Life_Balance_Importance': [5, 6, 7, 6, 7],
+    'Environmental_Sustainability_Importance': [3, 2, 1, 2, 1],
+    'Financial_Prosperity_Importance': [6, 5, 4, 5, 6],
+    'Relationships_Importance': [7, 6, 5, 6, 7],
+    'Interest_in_Luxury_Goods': [2, 3, 4, 3, 4],
+    'Purchase_Motive_Quality': [6, 6, 7, 6, 7],
+    'Purchase_Motive_Comfort': [5, 5, 6, 5, 6],
+    'Brand_Preference_Porsche': [4, 5, 6, 5, 6],
+    'Brand_Preference_Ferrari': [3, 4, 5, 4, 5],
+    'Brand_Preference_Lamborghini': [2, 3, 4, 3, 4],
+    'Use_of_Public_Transport': [5, 4, 3, 4, 3],
+    'Car_Usage': [6, 7, 6, 7, 6],
+    'Air_Travel': [4, 3, 2, 3, 2],
+    'Bicycle_Usage': [3, 2, 1, 2, 1],
+    'Car_Sharing': [2, 1, 0, 1, 0],
+    'Transport_Criteria_Convenience': [6, 7, 6, 7, 6],
+    'Transport_Criteria_Practicality': [5, 6, 5, 6, 5],
+    'Porsche_and_Spirituality_Yes': [1, 0, 1, 0, 1],
+    'Porsche_and_Spirituality_No': [0, 1, 0, 1, 0]
 }
 
-data_luxury_purchase = {
-    'Category': ['Interest in Luxury Goods', 'Purchase Motive: Quality', 'Purchase Motive: Comfort', 'Brand Preference: Porsche', 'Brand Preference: Ferrari', 'Brand Preference: Lamborghini'],
-    'Percentage': [28, 66, 62, 53, 53, 53]
-}
+df = pd.DataFrame(data)
 
-data_mobility_preferences = {
-    'Category': ['Use of Public Transport', 'Car Usage', 'Air Travel', 'Bicycle Usage', 'Car Sharing', 'Transport Criteria: Convenience', 'Transport Criteria: Practicality'],
-    'Percentage': [38, 45, 23, 15, 5, 62, 68]
-}
-
-data_porsche_spirituality = {
-    'Category': ['Porsche and Spirituality: Yes', 'Porsche and Spirituality: No'],
-    'Percentage': [19, 81]
-}
-
-# Create DataFrames
-df_values_beliefs = pd.DataFrame(data_values_beliefs)
-df_luxury_purchase = pd.DataFrame(data_luxury_purchase)
-df_mobility_preferences = pd.DataFrame(data_mobility_preferences)
-df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality)
+# Korrelationen berechnen
+correlation_matrix = df.corr()
 
 # Set style for the plots
 sns.set(style="whitegrid")
 
-st.title("Survey Results")
+st.title("Survey Results and Correlations")
 
-# Plot 1: Values and Beliefs
-st.subheader('Values and Beliefs')
-plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_values_beliefs, palette="viridis")
-plt.title('Values and Beliefs', fontsize=16)
-plt.xlabel('Percentage', fontsize=14)
-plt.ylabel('')
-plt.xticks(fontsize=12)
+# Plot: Correlation Heatmap
+st.subheader('Correlation Heatmap')
+plt.figure(figsize=(12, 10))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0)
+plt.title('Correlation Matrix', fontsize=16)
+plt.xticks(fontsize=12, rotation=45)
 plt.yticks(fontsize=12)
-plt.grid(axis='x')
 st.pyplot(plt.gcf())
 
-# Plot 2: Luxury Purchase Decisions
-st.subheader('Luxury Purchase Decisions')
-plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_luxury_purchase, palette="plasma")
-plt.title('Luxury Purchase Decisions', fontsize=16)
-plt.xlabel('Percentage', fontsize=14)
-plt.ylabel('')
-plt.xticks(fontsize=12)
-plt.yticks(fontsize=12)
-plt.grid(axis='x')
-st.pyplot(plt.gcf())
-
-# Plot 3: Mobility Preferences
-st.subheader('Mobility Preferences')
-plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_mobility_preferences, palette="cubehelix")
-plt.title('Mobility Preferences', fontsize=16)
-plt.xlabel('Percentage', fontsize=14)
-plt.ylabel('')
-plt.xticks(fontsize=12)
-plt.yticks(fontsize=12)
-plt.grid(axis='x')
-st.pyplot(plt.gcf())
-
-# Plot 4: Connection between Porsche and Spirituality
-st.subheader('Connection between Porsche and Spirituality')
-plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_porsche_spirituality, palette="magma")
-plt.title('Connection between Porsche and Spirituality', fontsize=16)
-plt.xlabel('Percentage', fontsize=14)
-plt.ylabel('')
-plt.xticks(fontsize=12)
-plt.yticks(fontsize=12)
-plt.grid(axis='x')
-st.pyplot(plt.gcf())
