@@ -38,12 +38,23 @@ sns.set(style="whitegrid")
 
 st.title("Survey Results and Correlations")
 
-# Plot: Correlation Heatmap
-st.subheader('Correlation Heatmap')
-plt.figure(figsize=(12, 10))
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0)
-plt.title('Correlation Matrix', fontsize=16)
-plt.xticks(fontsize=12, rotation=45)
-plt.yticks(fontsize=12)
+# Plot: Simplified Correlation Heatmap
+st.subheader('Simplified Correlation Heatmap')
+plt.figure(figsize=(10, 8))
+heatmap = sns.heatmap(
+    correlation_matrix,
+    annot=True,
+    fmt=".2f",
+    cmap='coolwarm',
+    cbar=True,
+    linewidths=0.5,
+    linecolor='gray',
+    square=True
+)
+heatmap.set_title('Correlation Matrix', fontsize=16)
+plt.xticks(fontsize=10, rotation=45)
+plt.yticks(fontsize=10)
+plt.tight_layout()
 st.pyplot(plt.gcf())
+
 
