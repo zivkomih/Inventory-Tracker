@@ -1,85 +1,63 @@
-import streamlit as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
+import seaborn as sns
 
-# Datei-Upload-Widget
-uploaded_file = st.file_uploader("Wähle eine Excel-Datei aus", type=["xls", "xlsx"])
+# Beispiel-Daten erstellen basierend auf den Informationen
+data = {
+    'Category': [
+        'Spiritualität', 'Lebensbalance', 'Ökologische Nachhaltigkeit', 
+        'Finanzieller Wohlstand', 'Beziehungen', 'Interesse an Luxusgütern',
+        'Kaufmotive: Qualität', 'Kaufmotive: Komfort', 'Markenpräferenzen: Porsche', 
+        'Markenpräferenzen: Ferrari', 'Markenpräferenzen: Lamborghini',
+        'Nutzung öffentlicher Verkehrsmittel', 'Autonutzung', 'Flugreisen', 
+        'Fahrradnutzung', 'Car-Sharing', 'Transportkriterien: Bequemlichkeit', 
+        'Transportkriterien: Praktikabilität', 'Porsche und Spiritualität: Ja',
+        'Porsche und Spiritualität: Nein'
+    ],
+    'Percentage': [
+        20, 81, 8, 43, 86, 28, 66, 62, 53, 53, 53, 38, 45, 23, 15, 5, 62, 68, 19, 81
+    ]
+}
 
-if uploaded_file is not None:
-    try:
-        # Datei einlesen
-        df = pd.read_excel(uploaded_file)
+df = pd.DataFrame(data)
 
-        # Fehlende Daten bereinigen (Beispiel: Ersetze -77 und -99 durch NaN)
-        df = df.replace([-77, -99], np.nan)
+# Set style for the plots
+sns.set(style="whitegrid")
 
-        # Zeige die ersten Zeilen und Datentypen vor der Transposition
-        st.write("Erste Zeilen des ursprünglichen DataFrames")
-        st.write(df.head())
-        st.write("Datentypen der Spalten vor der Transposition")
-        st.write(df.dtypes)
+# Creating the plots
+fig, axes = plt.subplots(2, 2, figsize=(15, 12))
 
-        # Konvertiere Prozentwerte zu numerischen Werten
-        def convert_percent(val):
-            if isinstance(val, str) and '%' in val:
-                return float(val.replace('%', '')) / 100
-            return val
+# Plot 1: Werte und Überzeugungen
+values_beliefs = df.iloc[0:5]
+sns.barplot(ax=axes[0, 0], x='Percentage', y='Category', data=values_beliefs, palette="viridis")
+axes[0, 0].set_title('Werte und Überzeugungen')
+axes[0, 0].set_xlabel('Prozent')
+axes[0, 0].set_ylabel('')
 
-        df = df.applymap(convert_percent)
+# Plot 2: Luxuskaufentscheidungen
+luxury_purchase = df.iloc[5:11]
+sns.barplot(ax=axes[0, 1], x='Percentage', y='Category', data=luxury_purchase, palette="plasma")
+axes[0, 1].set_title('Luxuskaufentscheidungen')
+axes[0, 1].set_xlabel('Prozent')
+axes[0, 1].set_ylabel('')
 
-        # Zeige die ersten Zeilen und Datentypen nach der Konvertierung
-        st.write("Erste Zeilen des DataFrames nach der Konvertierung")
-        st.write(df.head())
-        st.write("Datentypen der Spalten nach der Konvertierung")
-        st.write(df.dtypes)
+# Plot 3: Mobilitätspräferenzen
+mobility_preferences = df.iloc[11:18]
+sns.barplot(ax=axes[1, 0], x='Percentage', y='Category', data=mobility_preferences, palette="cubehelix")
+axes[1, 0].set_title('Mobilitätspräferenzen')
+axes[1, 0].set_xlabel('Prozent')
+axes[1, 0].set_ylabel('')
 
-        # Transponiere den DataFrame
-        df = df.T
+# Plot 4: Verbindung zwischen Porsche und Spiritualität
+porsche_spirituality = df.iloc[18:20]
+sns.barplot(ax=axes[1, 1], x='Percentage', y='Category', data=porsche_spirituality, palette="magma")
+axes[1, 1].set_title('Verbindung zwischen Porsche und Spiritualität')
+axes[1, 1].set_xlabel('Prozent')
+axes[1, 1].set_ylabel('')
 
-        # Zeige die ersten Zeilen und Datentypen nach der Transposition
-        st.write("Erste Zeilen des transponierten DataFrames")
-        st.write(df.head())
-        st.write("Datentypen der Spalten nach der Transposition")
-        st.write(df.dtypes)
+plt.tight_layout()
 
-        # Überprüfe, ob der transponierte DataFrame gültige numerische Spalten enthält
-        if df.empty or df.select_dtypes(include=[np.number]).empty:
-            st.write("Der transponierte DataFrame enthält keine gültigen numerischen Spalten.")
-        else:
-            # Deskriptive Statistiken
-            st.write("Deskriptive Statistiken")
-            st.write(df.describe())
+# Grafiken speichern
+plt.savefig('umfrage_grafiken.png')
 
-            # Nur numerische Spalten auswählen
-            numerical_df = df.select_dtypes(include=[np.number])
-
-            # Überprüfen der numerischen Daten
-            st.write("Numerische Daten")
-            st.write(numerical_df.head())
-            st.write(numerical_df.describe())
-
-            # Korrelationen berechnen
-            correlation_matrix = numerical_df.corr()
-
-            # Überprüfen der Korrelationen
-            st.write("Korrelationen")
-            st.write(correlation_matrix)
-
-            # Bereinigung der Korrelationen (Entfernen von NaN-Werten)
-            cleaned_correlation_matrix = correlation_matrix.dropna(how='all').dropna(axis=1, how='all')
-
-            # Heatmap der Korrelationen
-            if not cleaned_correlation_matrix.empty:
-                st.write("Heatmap der Korrelationen")
-                plt.figure(figsize=(10, 8))
-                sns.heatmap(cleaned_correlation_matrix, annot=True, cmap='coolwarm')
-                st.pyplot(plt)
-            else:
-                st.write("Keine gültigen Korrelationen vorhanden.")
-    except Exception as e:
-        st.error(f"Fehler beim Verarbeiten der Datei: {e}")
-else:
-    st.write("Bitte lade eine Excel-Datei hoch.")
-
+plt.show()
