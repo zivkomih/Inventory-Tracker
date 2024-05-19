@@ -3,41 +3,82 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Beispiel-Daten basierend auf den Informationen aus dem PDF-Dokument
-data = {
-    'Spirituality_Importance': [4, 5, 6, 5, 6, 3, 6, 5, 2, 2, 5, 2, 2, 1, 7, 4, 6, 6, 5, 1, 4, 1, 1, 5, 1, 6, 2, 7, 5, 5, 1, 5, 6, 3, 5, 1, 4, 6, 2, 4, 4, 5, 2, 1, 2, 6, 6, 3, 6, 3, 4, 2],
-    'Life_Balance_Importance': [7, 6, 7, 5, 7, 4, 7, 5, 4, 3, 5, 3, 4, 2, 7, 6, 7, 7, 5, 2, 6, 3, 3, 7, 3, 7, 4, 7, 6, 6, 3, 6, 7, 4, 6, 3, 5, 7, 3, 6, 5, 7, 4, 3, 4, 7, 7, 4, 6, 4, 5, 3],
-    'Environmental_Sustainability_Importance': [3, 4, 5, 2, 4, 1, 4, 3, 2, 2, 3, 1, 2, 1, 6, 4, 4, 4, 3, 1, 4, 2, 2, 4, 2, 5, 3, 5, 4, 4, 2, 3, 5, 3, 4, 2, 4, 5, 2, 4, 3, 4, 3, 2, 3, 5, 5, 2, 4, 3, 3, 2],
-    'Financial_Prosperity_Importance': [6, 6, 6, 5, 7, 4, 7, 6, 3, 3, 6, 3, 4, 2, 7, 5, 7, 6, 5, 2, 6, 3, 3, 6, 3, 6, 4, 6, 6, 5, 3, 5, 6, 4, 6, 3, 5, 7, 4, 5, 4, 6, 3, 3, 3, 7, 6, 3, 6, 3, 4, 3],
-    'Relationships_Importance': [7, 7, 6, 6, 7, 5, 7, 6, 4, 3, 6, 3, 4, 2, 7, 7, 7, 7, 6, 2, 7, 3, 3, 7, 3, 7, 4, 7, 6, 6, 3, 6, 7, 4, 6, 3, 5, 7, 4, 6, 5, 7, 4, 3, 4, 7, 7, 4, 6, 4, 5, 3],
-    'Interest_in_Luxury_Goods': [2, 3, 3, 2, 3, 1, 3, 2, 1, 1, 2, 1, 1, 1, 4, 3, 3, 3, 2, 1, 3, 1, 1, 3, 1, 3, 2, 4, 3, 3, 1, 3, 3, 2, 3, 1, 2, 3, 1, 3, 2, 3, 2, 1, 2, 4, 3, 1, 3, 2, 2, 1],
-    'Purchase_Motive_Quality': [6, 6, 7, 6, 7, 5, 7, 6, 4, 4, 6, 4, 5, 3, 7, 6, 7, 7, 6, 3, 6, 4, 4, 7, 4, 7, 5, 7, 6, 6, 4, 6, 7, 5, 6, 4, 5, 7, 5, 6, 5, 7, 5, 4, 5, 7, 7, 4, 6, 4, 5, 4],
-    'Purchase_Motive_Comfort': [5, 5, 6, 5, 6, 4, 6, 5, 3, 3, 5, 3, 4, 2, 7, 6, 6, 6, 5, 2, 6, 3, 3, 6, 3, 6, 4, 6, 5, 5, 3, 5, 6, 4, 5, 3, 5, 6, 3, 5, 4, 6, 4, 3, 4, 6, 6, 4, 5, 4, 5, 3],
-    'Brand_Preference_Porsche': [4, 5, 6, 5, 6, 4, 6, 5, 3, 3, 5, 3, 4, 2, 7, 6, 6, 6, 5, 2, 6, 3, 3, 6, 3, 6, 4, 6, 5, 5, 3, 5, 6, 4, 5, 3, 5, 6, 3, 5, 4, 6, 4, 3, 4, 6, 6, 4, 5, 4, 5, 3],
-    'Brand_Preference_Ferrari': [3, 4, 5, 4, 5, 3, 5, 4, 2, 2, 4, 2, 3, 2, 6, 5, 5, 5, 4, 2, 5, 2, 2, 5, 2, 5, 3, 5, 4, 4, 2, 4, 5, 3, 4, 2, 4, 5, 2, 4, 3, 5, 3, 2, 3, 5, 5, 2, 4, 3, 4, 2],
-    'Brand_Preference_Lamborghini': [2, 3, 4, 3, 4, 2, 4, 3, 1, 1, 3, 1, 2, 1, 5, 4, 4, 4, 3, 1, 4, 1, 1, 4, 1, 4, 2, 4, 3, 3, 1, 3, 4, 2, 3, 1, 3, 4, 1, 3, 2, 4, 2, 1, 2, 4, 4, 1, 3, 2, 3, 1]
+# Sample data based on the provided information
+data_values_beliefs = {
+    'Category': ['Spirituality', 'Life Balance', 'Environmental Sustainability', 'Financial Prosperity', 'Relationships'],
+    'Percentage': [20, 81, 8, 43, 86]
 }
 
-df = pd.DataFrame(data)
+data_luxury_purchase = {
+    'Category': ['Interest in Luxury Goods', 'Purchase Motive: Quality', 'Purchase Motive: Comfort', 'Brand Preference: Porsche', 'Brand Preference: Ferrari', 'Brand Preference: Lamborghini'],
+    'Percentage': [28, 66, 62, 53, 53, 53]
+}
 
-# Korrelationen berechnen
-correlation_matrix = df.corr()
+data_mobility_preferences = {
+    'Category': ['Use of Public Transport', 'Car Usage', 'Air Travel', 'Bicycle Usage', 'Car Sharing', 'Transport Criteria: Convenience', 'Transport Criteria: Practicality'],
+    'Percentage': [38, 45, 23, 15, 5, 62, 68]
+}
+
+data_porsche_spirituality = {
+    'Category': ['Porsche and Spirituality: Yes', 'Porsche and Spirituality: No'],
+    'Percentage': [19, 81]
+}
+
+# Create DataFrames
+df_values_beliefs = pd.DataFrame(data_values_beliefs)
+df_luxury_purchase = pd.DataFrame(data_luxury_purchase)
+df_mobility_preferences = pd.DataFrame(data_mobility_preferences)
+df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality)
 
 # Set style for the plots
 sns.set(style="whitegrid")
 
-st.title("Survey Results and Correlations")
+st.title("Survey Results")
 
-# Plot: Simplified Correlation Heatmap
-st.subheader('Simplified Correlation Heatmap')
-plt.figure(figsize=(10, 8))
-mask = correlation_matrix.abs() < 0.3  # Mask less significant correlations
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0, mask=mask, cbar_kws={'label': 'Correlation Coefficient'})
-plt.title('Simplified Correlation Matrix for Relevant Questions', fontsize=16)
-plt.xticks(fontsize=10, rotation=45)
-plt.yticks(fontsize=10)
+# Plot 1: Values and Beliefs
+st.subheader('Values and Beliefs')
+plt.figure(figsize=(12, 7))
+sns.barplot(x='Percentage', y='Category', data=df_values_beliefs, palette="viridis")
+plt.title('Values and Beliefs', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
+plt.ylabel('')
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
 st.pyplot(plt.gcf())
 
-# Zeige die Korrelationsmatrix ohne Maske für vollständige Analyse
-st.subheader('Complete Correlation Matrix')
-st.dataframe(correlation_matrix)
+# Plot 2: Luxury Purchase Decisions
+st.subheader('Luxury Purchase Decisions')
+plt.figure(figsize=(12, 7))
+sns.barplot(x='Percentage', y='Category', data=df_luxury_purchase, palette="plasma")
+plt.title('Luxury Purchase Decisions', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
+plt.ylabel('')
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+st.pyplot(plt.gcf())
+
+# Plot 3: Mobility Preferences
+st.subheader('Mobility Preferences')
+plt.figure(figsize=(12, 7))
+sns.barplot(x='Percentage', y='Category', data=df_mobility_preferences, palette="cubehelix")
+plt.title('Mobility Preferences', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
+plt.ylabel('')
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+st.pyplot(plt.gcf())
+
+# Plot 4: Connection between Porsche and Spirituality
+st.subheader('Connection between Porsche and Spirituality')
+plt.figure(figsize=(12, 7))
+sns.barplot(x='Percentage', y='Category', data=df_porsche_spirituality, palette="magma")
+plt.title('Connection between Porsche and Spirituality', fontsize=16)
+plt.xlabel('Percentage', fontsize=14)
+plt.ylabel('')
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='x')
+st.pyplot(plt.gcf())
