@@ -37,3 +37,7 @@ plt.title('Simplified Correlation Matrix for Relevant Questions', fontsize=16)
 plt.xticks(fontsize=10, rotation=45)
 plt.yticks(fontsize=10)
 st.pyplot(plt.gcf())
+
+# Zeige die Korrelationsmatrix ohne Maske für vollständige Analyse
+st.subheader('Complete Correlation Matrix')
+st.dataframe(correlation_matrix)
