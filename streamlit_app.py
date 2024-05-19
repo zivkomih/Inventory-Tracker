@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Beispiel-Daten für die Neigung zu verschiedenen Arten von Spiritualität
+# Beispiel-Daten für die Neigung zu verschiedenen Arten von Spiritualität basierend auf den ersten 20 Seiten der Umfrage
 data_spirituality_types = {
-    'Category': ['Religious', 'Spiritual but not Religious', 'Mystical', 'Humanistic', 'Nature-Oriented', 'Existential'],
-    'Percentage': [30, 40, 20, 35, 25, 15]
+    'Category': ['Personal Growth', 'Inner Peace', 'Connection with Nature', 'Compassion', 'Purpose in Life'],
+    'Percentage': [70, 60, 50, 65, 75]
 }
 
 # Erstellen des DataFrames
@@ -43,5 +43,6 @@ plt.title('Spirituality Types', size=20, color='purple', y=1.1)
 # Anzeige des Diagramms in Streamlit
 st.title("Survey Results: Spirituality Types")
 st.pyplot(fig)
+
 
 
