@@ -3,10 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Beispiel-Daten für die Neigung zu verschiedenen Arten von Spiritualität basierend auf den ersten 20 Seiten der Umfrage
+# Beispiel-Daten für die Neigung zu verschiedenen Arten von Spiritualität basierend auf der Umfrage
 data_spirituality_types = {
-    'Category': ['Personal Growth', 'Inner Peace', 'Connection with Nature', 'Compassion', 'Purpose in Life'],
-    'Percentage': [70, 60, 50, 65, 75]
+    'Category': [
+        'Personal Growth', 'Inner Peace', 'Connection with Nature', 'Compassion', 'Purpose in Life',
+        'Mindfulness', 'Self-Reflection', 'Gratitude', 'Meditation', 'Religious Practices'
+    ],
+    'Percentage': [70, 60, 50, 65, 75, 55, 45, 35, 40, 30]
 }
 
 # Erstellen des DataFrames
@@ -27,7 +30,7 @@ values += values[:1]
 angles += angles[:1]
 
 # Erstellen des Spinnennetz-Diagramms
-fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
 
 ax.fill(angles, values, color='purple', alpha=0.25)
 ax.plot(angles, values, color='purple', linewidth=2)
@@ -35,7 +38,7 @@ ax.plot(angles, values, color='purple', linewidth=2)
 # Kategorien-Labels
 ax.set_yticklabels([])
 ax.set_xticks(angles[:-1])
-ax.set_xticklabels(categories, fontsize=12)
+ax.set_xticklabels(categories, fontsize=10)
 
 # Titel hinzufügen
 plt.title('Spirituality Types', size=20, color='purple', y=1.1)
@@ -43,6 +46,3 @@ plt.title('Spirituality Types', size=20, color='purple', y=1.1)
 # Anzeige des Diagramms in Streamlit
 st.title("Survey Results: Spirituality Types")
 st.pyplot(fig)
-
-
-
