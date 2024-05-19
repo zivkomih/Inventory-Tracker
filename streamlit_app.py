@@ -1,6 +1,7 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
+import streamlit as st
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Daten für die Korrelationen
 data_correlation = {
@@ -27,7 +28,14 @@ data_correlation = {
 # Erstellen des DataFrames
 df_correlation = pd.DataFrame(data_correlation)
 
-# Erstellen der Grafik
+# Stil für die Diagramme festlegen
+sns.set(style="whitegrid")
+
+# Titel der App
+st.title("Survey Results: Correlation between Porsche and Spirituality and Other Factors")
+
+# Plot: Correlation Chart
+st.subheader('Correlation Chart')
 plt.figure(figsize=(10, 6))
 sns.barplot(x='Correlation Level', y='Factor', data=df_correlation, palette="viridis")
 plt.title('Correlation between Porsche and Spirituality and Other Factors', fontsize=16)
@@ -36,6 +44,4 @@ plt.ylabel('Factor', fontsize=14)
 plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 plt.grid(axis='x')
-
-# Grafik anzeigen
-plt.show()
+st.pyplot(plt.gcf())
