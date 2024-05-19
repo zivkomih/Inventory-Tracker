@@ -28,4 +28,12 @@ sns.set(style="whitegrid")
 
 st.title("Survey Results and Correlations")
 
-# Plot: Simplified Correlation Heat &#8203;``【oaicite:0】``&#8203;
+# Plot: Simplified Correlation Heatmap
+st.subheader('Simplified Correlation Heatmap')
+plt.figure(figsize=(10, 8))
+mask = correlation_matrix.abs() < 0.3  # Mask less significant correlations
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0, mask=mask, cbar_kws={'label': 'Correlation Coefficient'})
+plt.title('Simplified Correlation Matrix for Relevant Questions', fontsize=16)
+plt.xticks(fontsize=10, rotation=45)
+plt.yticks(fontsize=10)
+st.pyplot(plt.gcf())
