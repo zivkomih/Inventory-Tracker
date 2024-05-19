@@ -9,9 +9,22 @@ data_values_beliefs = {
     'Percentage': [20, 81, 8, 43, 86]
 }
 
-data_luxury_purchase = {
-    'Category': ['Interest in Luxury Goods', 'Purchase Motive: Quality', 'Purchase Motive: Comfort', 'Purchase Motive: Technology', 'Purchase Motive: Status Symbol'],
-    'Percentage': [28, 66, 62, 50, 45]
+data_luxury_purchase_expanded = {
+    'Category': [
+        'Interest in Luxury Goods',
+        'Purchase Motive: Quality',
+        'Purchase Motive: Comfort',
+        'Purchase Motive: Technology',
+        'Purchase Motive: Status Symbol',
+        'Purchase Motive: Brand Image',
+        'Purchase Motive: Design',
+        'Purchase Motive: Exclusivity',
+        'Purchase Motive: Investment Value',
+        'Purchase Motive: Customer Service'
+    ],
+    'Percentage': [
+        28, 66, 62, 50, 45, 60, 55, 40, 35, 30
+    ]
 }
 
 data_mobility_preferences = {
@@ -31,7 +44,7 @@ data_porsche_spirituality = {
 
 # Erstellen von DataFrames
 df_values_beliefs = pd.DataFrame(data_values_beliefs).sort_values(by='Percentage', ascending=False)
-df_luxury_purchase = pd.DataFrame(data_luxury_purchase).sort_values(by='Percentage', ascending=False)
+df_luxury_purchase_expanded = pd.DataFrame(data_luxury_purchase_expanded).sort_values(by='Percentage', ascending=False)
 df_mobility_preferences = pd.DataFrame(data_mobility_preferences).sort_values(by='Percentage', ascending=False)
 df_transport_criteria = pd.DataFrame(data_transport_criteria).sort_values(by='Percentage', ascending=False)
 df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality).sort_values(by='Percentage', ascending=False)
@@ -56,7 +69,7 @@ st.pyplot(plt.gcf())
 # Plot 2: Luxury Purchase Decisions
 st.subheader('Luxury Purchase Decisions')
 plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_luxury_purchase, palette="plasma")
+sns.barplot(x='Percentage', y='Category', data=df_luxury_purchase_expanded, palette="plasma")
 plt.title('Luxury Purchase Decisions', fontsize=16)
 plt.xlabel('Percentage', fontsize=14)
 plt.ylabel('')
