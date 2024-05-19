@@ -2,12 +2,11 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Beispiel-Daten basierend auf den bereitgestellten Informationen
 data_values_beliefs = {
-    'Category': ['Spirituality', 'Life Balance', 'Environmental Sustainability', 'Financial Prosperity', 'Relationships', 'Personal Development'],
-    'Percentage': [20, 81, 8, 43, 86, 75]
+    'Category': ['Spirituality', 'Life Balance', 'Environmental Sustainability', 'Financial Prosperity', 'Relationships'],
+    'Percentage': [20, 81, 8, 43, 86]
 }
 
 data_luxury_purchase_expanded = {
@@ -53,20 +52,6 @@ df_luxury_purchase_expanded = pd.DataFrame(data_luxury_purchase_expanded).sort_v
 df_mobility_preferences = pd.DataFrame(data_mobility_preferences).sort_values(by='Percentage', ascending=False)
 df_transport_criteria = pd.DataFrame(data_transport_criteria).sort_values(by='Percentage', ascending=False)
 df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality).sort_values(by='Percentage', ascending=False)
-
-# Daten für das Spinnennetz-Diagramm
-categories = ['Quality', 'Performance', 'Brand Image', 'Technology', 'Design', 'Comfort', 'Customer Service']
-values = [0.6, 0.7, 0.5, 0.4, 0.35, 0.2, 0.1]
-
-# Anzahl der Kategorien
-num_vars = len(categories)
-
-# Berechnung der Winkel der Kategorien
-angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
-
-# Wiederholen der Werte, um das Diagramm zu schließen
-values += values[:1]
-angles += angles[:1]
 
 # Stil für die Diagramme festlegen
 sns.set(style="whitegrid")
@@ -127,18 +112,3 @@ plt.yticks(fontsize=12)
 plt.grid(axis='x')
 st.pyplot(plt.gcf())
 
-# Plot 5: Correlation with Spirituality Segments (Spider Chart)
-st.subheader('Correlation with Spirituality Segments')
-fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-
-ax.fill(angles, values, color='purple', alpha=0.25)
-ax.plot(angles, values, color='purple', linewidth=2)
-
-# Kategorien-Labels
-ax.set_yticklabels([])
-ax.set_xticks(angles[:-1])
-ax.set_xticklabels(categories, fontsize=12)
-
-# Titel hinzufügen
-plt.title('Correlation with Spirituality Segments', size=20, color='purple', y=1.1)
-st.pyplot(fig)
