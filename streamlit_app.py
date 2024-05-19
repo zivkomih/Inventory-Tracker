@@ -20,10 +20,14 @@ data_luxury_purchase_expanded = {
         'Purchase Motive: Design',
         'Purchase Motive: Exclusivity',
         'Purchase Motive: Investment Value',
-        'Purchase Motive: Customer Service'
+        'Purchase Motive: Customer Service',
+        'Purchase Motive: Sustainability',
+        'Purchase Motive: Performance',
+        'Purchase Motive: Safety',
+        'Purchase Motive: Heritage'
     ],
     'Percentage': [
-        28, 66, 62, 50, 45, 60, 55, 40, 35, 30
+        28, 66, 62, 50, 45, 60, 55, 40, 35, 30, 25, 70, 65, 55
     ]
 }
 
