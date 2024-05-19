@@ -82,31 +82,25 @@ plt.yticks(fontsize=12)
 plt.grid(axis='x')
 st.pyplot(plt.gcf())
 
-# Plot 3: Mobility Preferences
-st.subheader('Mobility Preferences')
+# Plot 3: Mobility Preferences and Transport Criteria
+st.subheader('Mobility Preferences and Transport Criteria')
 plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_mobility_preferences, palette="cubehelix")
-plt.title('Mobility Preferences', fontsize=16)
+
+# Combine the two datasets for better visualization
+df_combined = pd.concat([df_mobility_preferences, df_transport_criteria])
+df_combined['Type'] = ['Mobility Preferences'] * len(df_mobility_preferences) + ['Transport Criteria'] * len(df_transport_criteria)
+
+sns.barplot(x='Percentage', y='Category', hue='Type', data=df_combined, palette=["#3498db", "#e74c3c"])
+plt.title('Mobility Preferences and Transport Criteria', fontsize=16)
 plt.xlabel('Percentage', fontsize=14)
 plt.ylabel('')
 plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
+plt.legend(title='Type', loc='upper right')
 plt.grid(axis='x')
 st.pyplot(plt.gcf())
 
-# Plot 4: Transport Criteria
-st.subheader('Transport Criteria')
-plt.figure(figsize=(12, 7))
-sns.barplot(x='Percentage', y='Category', data=df_transport_criteria, palette="cubehelix")
-plt.title('Transport Criteria', fontsize=16)
-plt.xlabel('Percentage', fontsize=14)
-plt.ylabel('')
-plt.xticks(fontsize=12)
-plt.yticks(fontsize=12)
-plt.grid(axis='x')
-st.pyplot(plt.gcf())
-
-# Plot 5: Connection between Porsche and Spirituality
+# Plot 4: Connection between Porsche and Spirituality
 st.subheader('Connection between Porsche and Spirituality')
 plt.figure(figsize=(12, 7))
 sns.barplot(x='Percentage', y='Category', data=df_porsche_spirituality, palette="magma")
@@ -117,3 +111,4 @@ plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 plt.grid(axis='x')
 st.pyplot(plt.gcf())
+
