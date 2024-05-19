@@ -3,15 +3,15 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Sample data based on the provided information
+# Beispiel-Daten basierend auf den bereitgestellten Informationen
 data_values_beliefs = {
     'Category': ['Spirituality', 'Life Balance', 'Environmental Sustainability', 'Financial Prosperity', 'Relationships'],
     'Percentage': [20, 81, 8, 43, 86]
 }
 
 data_luxury_purchase = {
-    'Category': ['Interest in Luxury Goods', 'Purchase Motive: Quality', 'Purchase Motive: Comfort', 'Brand Preference: Porsche', 'Brand Preference: Ferrari', 'Brand Preference: Lamborghini'],
-    'Percentage': [28, 66, 62, 53, 53, 53]
+    'Category': ['Interest in Luxury Goods', 'Purchase Motive: Quality', 'Purchase Motive: Comfort'],
+    'Percentage': [28, 66, 62]
 }
 
 data_mobility_preferences = {
@@ -24,13 +24,13 @@ data_porsche_spirituality = {
     'Percentage': [19, 81]
 }
 
-# Create DataFrames
-df_values_beliefs = pd.DataFrame(data_values_beliefs)
-df_luxury_purchase = pd.DataFrame(data_luxury_purchase)
-df_mobility_preferences = pd.DataFrame(data_mobility_preferences)
-df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality)
+# Erstellen von DataFrames
+df_values_beliefs = pd.DataFrame(data_values_beliefs).sort_values(by='Percentage', ascending=False)
+df_luxury_purchase = pd.DataFrame(data_luxury_purchase).sort_values(by='Percentage', ascending=False)
+df_mobility_preferences = pd.DataFrame(data_mobility_preferences).sort_values(by='Percentage', ascending=False)
+df_porsche_spirituality = pd.DataFrame(data_porsche_spirituality).sort_values(by='Percentage', ascending=False)
 
-# Set style for the plots
+# Stil für die Diagramme festlegen
 sns.set(style="whitegrid")
 
 st.title("Survey Results")
