@@ -39,6 +39,10 @@ colors = [
     "#8E1D1A"   # Dark red
 ]
 
+# Sort data by sizes
+sorted_data = sorted(zip(sizes, labels, colors), reverse=True)
+sizes, labels, colors = zip(*sorted_data)
+
 # Create a pie chart
 fig, ax = plt.subplots()
 ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
@@ -49,3 +53,4 @@ plt.title('Respondents\' Views on Various Aspects', pad=20)
 
 # Display the pie chart in Streamlit
 st.pyplot(fig)
+
