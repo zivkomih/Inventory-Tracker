@@ -1,56 +1,48 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
-# Data from the user's input
-labels = [
-    "Spirituality: Not important",
-    "Spirituality: Strongly agree",
-    "Self-perception: See as spiritual",
-    "Self-perception: Disagree",
-    "Balanced life: Very important",
-    "Ecological sustainability: Prioritize",
-    "Financial prosperity: Agree",
-    "Meaningful relationships: Agree",
-    "Personal development: Important"
-]
+# Neue Daten für die Begriffe und Prozentsätze basierend auf der Umfrage
+data_values_beliefs = {
+    'Category': [
+        'Self-perception', 'Balanced life', 'Ecological sustainability', 
+        'Financial prosperity', 'Meaningful relationships', 'Personal development'
+    ],
+    'Percentage': [19, 81, 31, 69, 86, 79]
+}
 
-sizes = [
-    34,  # Spirituality: Not important
-    4,   # Spirituality: Strongly agree
-    19,  # Self-perception: See as spiritual
-    36,  # Self-perception: Disagree
-    81,  # Balanced life: Very important
-    31,  # Ecological sustainability: Prioritize
-    69,  # Financial prosperity: Agree
-    86,  # Meaningful relationships: Agree
-    79   # Personal development: Important
-]
+# Erstellen des DataFrames
+df_values_beliefs = pd.DataFrame(data_values_beliefs)
 
-# Define colors (complementary and matching colors)
-colors = [
-    "#EBD698",  # Light gold
-    "#000000",  # Black
-    "#B12B28",  # Deep red
-    "#D3B88C",  # Lighter gold
-    "#555555",  # Dark gray
-    "#E57373",  # Light red
-    "#F4E1A1",  # Pale gold
-    "#333333",  # Dark gray
-    "#8E1D1A"   # Dark red
-]
+# Erstellen der Daten für das Spinnennetz-Diagramm
+categories = df_values_beliefs['Category'].tolist()
+values = df_values_beliefs['Percentage'].tolist()
 
-# Sort data by sizes
-sorted_data = sorted(zip(sizes, labels, colors), reverse=True)
-sizes, labels, colors = zip(*sorted_data)
+# Anzahl der Kategorien
+num_vars = len(categories)
 
-# Create a pie chart
-fig, ax = plt.subplots()
-ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
-ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+# Berechnung der Winkel der Kategorien
+angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
 
-# Title
-plt.title('Respondents\' Views on Various Aspects', pad=20)
+# Wiederholen der Werte, um das Diagramm zu schließen
+values += values[:1]
+angles += angles[:1]
 
-# Display the pie chart in Streamlit
+# Erstellen des Spinnennetz-Diagramms mit den gewünschten Farben
+fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+
+ax.fill(angles, values, color='#EBD698', alpha=0.25)
+ax.plot(angles, values, color='#B12B28', linewidth=2)
+
+# Kategorien-Labels
+ax.set_yticklabels([])
+ax.set_xticks(angles[:-1])
+ax.set_xticklabels(categories, fontsize=10, color='#000000')
+
+# Titel hinzufügen
+plt.title('Values and Beliefs', size=20, color='#B12B28', y=1.1)
+
+# Anzeige des Diagramms in Streamlit
+st.title("Survey Results: Values and Beliefs")
 st.pyplot(fig)
-
