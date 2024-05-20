@@ -1,50 +1,52 @@
 import streamlit as st
-import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Daten für die Korrelationen
-data_correlation = {
-    'Correlation Level': [
-        'High (0.5 and higher)',
-        'High (0.5 and higher)',
-        'High (0.5 and higher)',
-        'Moderate (0.3 to 0.5)',
-        'Moderate (0.3 to 0.5)',
-        'Low (below 0.3)',
-        'Low (below 0.3)'
-    ],
-    'Factor': [
-        'Quality',
-        'Performance',
-        'Brand Image',
-        'Technology',
-        'Design',
-        'Comfort',
-        'Customer Service'
-    ]
-}
+# Data from the user's input
+labels = [
+    "Spirituality: Not important",
+    "Spirituality: Strongly agree",
+    "Self-perception: See as spiritual",
+    "Self-perception: Disagree",
+    "Balanced life: Very important",
+    "Ecological sustainability: Prioritize",
+    "Financial prosperity: Agree",
+    "Meaningful relationships: Agree",
+    "Personal development: Important"
+]
 
-# Erstellen des DataFrames
-df_correlation = pd.DataFrame(data_correlation)
+sizes = [
+    34,  # Spirituality: Not important
+    4,   # Spirituality: Strongly agree
+    19,  # Self-perception: See as spiritual
+    36,  # Self-perception: Disagree
+    81,  # Balanced life: Very important
+    31,  # Ecological sustainability: Prioritize
+    69,  # Financial prosperity: Agree
+    86,  # Meaningful relationships: Agree
+    79   # Personal development: Important
+]
 
-# Stil für die Diagramme festlegen
-sns.set(style="whitegrid")
+# Define colors (using the specified colors)
+colors = [
+    "#EBD698",  # Light gold
+    "#000000",  # Black
+    "#B12B28",  # Deep red
+    "#EBD698",  # Light gold
+    "#000000",  # Black
+    "#B12B28",  # Deep red
+    "#EBD698",  # Light gold
+    "#000000",  # Black
+    "#B12B28"   # Deep red
+]
 
-# Farben definieren
-colors = ["#EBD698", "#000000", "#B12B28"]
+# Create a pie chart
+fig, ax = plt.subplots()
+ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-# Titel der App
-st.title("Survey Results: Correlation between Porsche and Spirituality and Other Factors")
+# Title
+plt.title('Respondents\' Views on Various Aspects')
 
-# Plot: Correlation Chart
-st.subheader('Correlation Chart')
-plt.figure(figsize=(10, 6))
-sns.barplot(x='Correlation Level', y='Factor', data=df_correlation, palette=colors)
-plt.title('Correlation between Porsche and Spirituality and Other Factors', fontsize=16)
-plt.xlabel('Correlation Level', fontsize=14)
-plt.ylabel('Factor', fontsize=14)
-plt.xticks(fontsize=12)
-plt.yticks(fontsize=12)
-plt.grid(axis='x')
-st.pyplot(plt.gcf())
+# Display the pie chart in Streamlit
+st.pyplot(fig)
+
