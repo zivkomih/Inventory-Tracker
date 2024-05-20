@@ -41,12 +41,8 @@ colors = [
 
 # Create a pie chart
 fig, ax = plt.subplots()
-ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140, pctdistance=0.85)
+ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
 ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
-# Add a white circle at the center to make it look like a donut chart
-centre_circle = plt.Circle((0,0),0.70,fc='white')
-fig.gca().add_artist(centre_circle)
 
 # Title
 plt.title('Respondents\' Views on Various Aspects', pad=20)
