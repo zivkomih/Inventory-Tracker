@@ -41,8 +41,9 @@ ax.set_xticks(angles[:-1])
 ax.set_xticklabels(categories, fontsize=10, color='#000000')
 
 # Titel hinzufügen
-plt.title('Values and Beliefs', size=20, color='#B12B28', y=1.1)
+plt.title('Spiritual Segments', size=20, color='#B12B28', y=1.1)
 
 # Anzeige des Diagramms in Streamlit
-st.title("Survey Results: Values and Beliefs")
+st.title("Survey Results: Spiritual Segments")
 st.pyplot(fig)
+
